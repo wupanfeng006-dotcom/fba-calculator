@@ -1,19 +1,13 @@
-const CACHE = 'qoolighten-v1';
-const ASSETS = [
-  '/index.html',
-  '/manifest.json',
-  'https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;1,9..144,300&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap'
-];
+const CACHE = 'qoolighten-v2';
+const ASSETS = ['./index.html', './manifest.json'];
 
-// Install: cache core assets
 self.addEventListener('install', e => {
   e.waitUntil(
-    caches.open(CACHE).then(c => c.addAll(['/index.html', '/manifest.json']))
+    caches.open(CACHE).then(c => c.addAll(ASSETS))
   );
   self.skipWaiting();
 });
 
-// Activate: clean old caches
 self.addEventListener('activate', e => {
   e.waitUntil(
     caches.keys().then(keys =>
@@ -23,19 +17,19 @@ self.addEventListener('activate', e => {
   self.clients.claim();
 });
 
-// Fetch: cache-first for app shell, network-first for Google Fonts
 self.addEventListener('fetch', e => {
-  const url = new URL(e.request.url);
+  const req = e.request;
+  const url = new URL(req.url);
 
   // Google Fonts — network with cache fallback
   if (url.hostname.includes('fonts.g')) {
     e.respondWith(
       caches.open(CACHE).then(async cache => {
-        const cached = await cache.match(e.request);
+        const cached = await cache.match(req);
         if (cached) return cached;
         try {
-          const res = await fetch(e.request);
-          cache.put(e.request, res.clone());
+          const res = await fetch(req);
+          if (res.ok) cache.put(req, res.clone());
           return res;
         } catch { return cached || new Response('', { status: 408 }); }
       })
@@ -43,23 +37,20 @@ self.addEventListener('fetch', e => {
     return;
   }
 
-  // App shell — cache first
-  if (e.request.mode === 'navigate' || url.pathname.endsWith('.html')) {
-    e.respondWith(
-      caches.match('/index.html').then(r => r || fetch(e.request))
-    );
-    return;
-  }
-
-  // Default: stale-while-revalidate
+  // App shell — cache first, fallback to network
   e.respondWith(
     caches.open(CACHE).then(async cache => {
-      const cached = await cache.match(e.request);
-      const fresh = fetch(e.request).then(res => {
-        if (res.ok) cache.put(e.request, res.clone());
+      const cached = await cache.match(req);
+      if (cached) return cached;
+      try {
+        const res = await fetch(req);
+        if (res.ok && req.method === 'GET') cache.put(req, res.clone());
         return res;
-      }).catch(() => null);
-      return cached || fresh;
+      } catch {
+        // Offline fallback
+        const fallback = await cache.match('./index.html');
+        return fallback || new Response('Offline', { status: 503 });
+      }
     })
   );
 });

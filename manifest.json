@@ -2,7 +2,7 @@
   "name": "Qoolighten FBA 利润计算器",
   "short_name": "FBA 计算器",
   "description": "Amazon FBA 2026 利润分析工具 · Qoolighten",
-  "start_url": "/index.html",
+  "start_url": "./index.html",
   "display": "standalone",
   "orientation": "any",
   "background_color": "#ffffff",
@@ -26,5 +26,7 @@
   "categories": [
     "business",
     "productivity"
-  ]
+  ],
+  "scope": "./",
+  "id": "./index.html"
 }
