@@ -13,412 +13,274 @@
 <link rel="apple-touch-icon" href="icon-192.png">
 <title>Amazon FBA 利润计算器 2026 · Qoolighten</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;1,9..144,300&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
-
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;1,9..144,300&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-/* ─── TOKENS ─── */
 :root{
-  --cream:#F6F3EE; --cream2:#EDE9E2; --cream3:#E2DDD4;
-  --ink:#1A1916; --ink2:#4A4844; --ink3:#8A8680; --ink4:#B8B4AE;
-  --amber:#C8820A; --amber-bg:#FDF3E0; --amber-bd:#F0D090;
-  --green:#2E7D5A; --green-bg:#E8F5EE; --green-bd:#90CCA8;
-  --red:#C0392B; --red-bg:#FDECEA; --red-bd:#F0A090;
-  --blue:#1A5FA0; --blue-bg:#E8F1FA; --blue-bd:#90B8E0;
-  --border:#D8D4CC; --border2:#C8C4BC;
-  --serif:'Fraunces',Georgia,serif;
-  --sans:'DM Sans',system-ui,sans-serif;
-  --mono:'DM Mono',monospace;
-  --r:8px; --r2:12px;
-  --shadow:0 1px 3px rgba(0,0,0,0.08),0 4px 12px rgba(0,0,0,0.04);
+  --cream:#F6F3EE;--cream2:#EDE9E2;--cream3:#E2DDD4;
+  --ink:#1A1916;--ink2:#4A4844;--ink3:#8A8680;--ink4:#B8B4AE;
+  --amber:#C8820A;--amber-bg:#FDF3E0;--amber-bd:#F0D090;
+  --green:#2E7D5A;--green-bg:#E8F5EE;--green-bd:#90CCA8;
+  --red:#C0392B;--red-bg:#FDECEA;--red-bd:#F0A090;
+  --blue:#1A5FA0;--blue-bg:#E8F1FA;--blue-bd:#90B8E0;
+  --border:#D8D4CC;--border2:#C8C4BC;
+  --serif:'Fraunces',Georgia,serif;--sans:'DM Sans',system-ui,sans-serif;--mono:'DM Mono',monospace;
+  --r:8px;--r2:12px;--shadow:0 1px 3px rgba(0,0,0,.08),0 4px 12px rgba(0,0,0,.04);
 }
-
-/* ─── RESET ─── */
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--cream);color:var(--ink);font-family:var(--sans);font-size:13px;line-height:1.5;min-height:100vh}
-
-/* ─── LAYOUT ─── */
-.app{display:grid;grid-template-rows:auto 1fr;min-height:100vh}
-.topbar{background:var(--ink);display:flex;align-items:center;gap:16px;padding:0 24px;height:52px;position:sticky;top:0;z-index:100}
-.topbar-logo{font-family:var(--serif);font-size:15px;font-weight:300;color:#fff;letter-spacing:.02em;font-style:italic}
-.topbar-logo span{color:var(--amber-bd);font-style:normal;font-weight:500}
-.topbar-divider{width:1px;height:20px;background:rgba(255,255,255,.15)}
-.topbar-title{font-size:11px;color:rgba(255,255,255,.5);letter-spacing:.08em;text-transform:uppercase}
+.topbar{background:var(--ink);display:flex;align-items:center;gap:12px;padding:0 20px;position:sticky;top:0;z-index:100;
+  padding-top:env(safe-area-inset-top);height:calc(52px + env(safe-area-inset-top));
+  padding-left:max(20px,env(safe-area-inset-left));padding-right:max(20px,env(safe-area-inset-right))}
+.topbar-logo{font-family:var(--serif);font-size:15px;font-weight:300;color:#fff;font-style:italic;white-space:nowrap}
+.topbar-logo span{color:#7FD4E0;font-style:normal;font-weight:500}
 .topbar-spacer{flex:1}
-.mkt-tabs{display:flex;gap:4px}
-.mkt{padding:5px 12px;border-radius:5px;border:1px solid rgba(255,255,255,.15);font-size:11px;font-weight:500;cursor:pointer;background:transparent;color:rgba(255,255,255,.6);transition:all .15s;font-family:var(--sans)}
-.mkt.active{background:var(--amber);color:var(--ink);border-color:var(--amber)}
-.btn-export{display:flex;align-items:center;gap:6px;padding:6px 14px;border-radius:6px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.08);color:rgba(255,255,255,.8);font-size:11px;font-weight:500;cursor:pointer;transition:all .15s;font-family:var(--sans)}
-.btn-export:hover{background:rgba(255,255,255,.15);color:#fff}
-
-.body{display:grid;grid-template-columns:340px 1fr;gap:0;min-height:0}
-.sidebar{background:#fff;border-right:1px solid var(--border);padding:0;overflow-y:auto;display:flex;flex-direction:column}
+.mkt-tabs{display:flex;gap:5px}
+.mkt{padding:6px 12px;border-radius:5px;border:1px solid rgba(255,255,255,.18);font-size:11px;font-weight:500;cursor:pointer;background:transparent;color:rgba(255,255,255,.65);transition:all .15s;font-family:var(--sans);white-space:nowrap}
+.mkt.active{background:var(--amber);color:#fff;border-color:var(--amber)}
+.body{display:grid;grid-template-columns:350px 1fr;height:calc(100vh - 52px - env(safe-area-inset-top));min-height:0}
+.sidebar{background:#fff;border-right:1px solid var(--border);overflow-y:auto;display:flex;flex-direction:column}
 .main{padding:22px;overflow-y:auto;background:var(--cream)}
-
-/* ─── PRODUCT HEADER ─── */
-.product-hdr{padding:16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px}
-.img-upload{width:52px;height:52px;border-radius:var(--r);border:1.5px dashed var(--border2);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;background:var(--cream);transition:border-color .15s;position:relative}
+/* product header */
+.product-hdr{padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px}
+.img-upload{width:50px;height:50px;border-radius:var(--r);border:1.5px dashed var(--border2);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;background:var(--cream);transition:border-color .15s;position:relative}
 .img-upload:hover{border-color:var(--amber)}
-.img-upload input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
-.img-upload img{width:100%;height:100%;object-fit:cover;border-radius:calc(var(--r) - 1px)}
-.img-placeholder{font-size:20px;pointer-events:none}
-.product-name-wrap{flex:1;min-width:0}
-.product-name-wrap label{font-size:10px;color:var(--ink3);letter-spacing:.06em;text-transform:uppercase;display:block;margin-bottom:3px}
-.product-name-input{width:100%;background:transparent;border:none;border-bottom:1.5px solid var(--border);padding:3px 0;font-family:var(--serif);font-size:14px;font-weight:500;color:var(--ink);outline:none;transition:border-color .15s}
-.product-name-input:focus{border-color:var(--amber)}
-.product-name-input::placeholder{color:var(--ink4);font-weight:300;font-style:italic}
-
-/* ─── SIDEBAR SECTIONS ─── */
-.sec{padding:14px 16px;border-bottom:1px solid var(--border)}
-.sec-lbl{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);margin-bottom:10px;display:flex;align-items:center;gap:6px}
-.sec-lbl-icon{font-size:12px}
-
-/* ─── DUAL INPUT CONTROL ─── */
-.ctrl{margin-bottom:10px}
-.ctrl:last-child{margin-bottom:0}
+.img-upload img{width:100%;height:100%;object-fit:cover;border-radius:calc(var(--r) - 1px);display:none}
+.img-ph{font-size:18px;pointer-events:none}
+.pn-wrap{flex:1;min-width:0}
+.pn-wrap label{font-size:10px;color:var(--ink3);letter-spacing:.06em;text-transform:uppercase;display:block;margin-bottom:3px}
+.pn-input{width:100%;background:transparent;border:none;border-bottom:1.5px solid var(--border);padding:3px 0;font-family:var(--serif);font-size:14px;font-weight:500;color:var(--ink);outline:none;transition:border-color .15s}
+.pn-input:focus{border-color:var(--amber)}
+.pn-input::placeholder{color:var(--ink4);font-weight:300;font-style:italic}
+/* sections */
+.sec{padding:13px 15px;border-bottom:1px solid var(--border)}
+.sec-lbl{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);margin-bottom:9px;display:flex;align-items:center;gap:5px}
+/* dual input */
+.ctrl{margin-bottom:10px}.ctrl:last-child{margin-bottom:0}
 .ctrl-hdr{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px}
-.ctrl-name{font-size:11px;color:var(--ink2);font-weight:400}
-.ctrl-val{font-family:var(--mono);font-size:11px;color:var(--amber);font-weight:500}
+.ctrl-name{font-size:11px;color:var(--ink2)}.ctrl-val{font-family:var(--mono);font-size:11px;color:var(--amber);font-weight:500}
 .ctrl-body{display:flex;align-items:center;gap:7px}
-.ctrl-body input[type=range]{
-  flex:1;-webkit-appearance:none;height:3px;background:var(--cream3);border-radius:2px;outline:none;cursor:pointer
-}
-.ctrl-body input[type=range]::-webkit-slider-thumb{
-  -webkit-appearance:none;width:13px;height:13px;border-radius:50%;
-  background:var(--amber);cursor:pointer;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.2)
-}
-.ctrl-body input[type=range]:focus::-webkit-slider-thumb{outline:2px solid var(--amber-bd)}
-.ni{
-  width:68px;background:var(--cream);border:1px solid var(--border);border-radius:5px;
-  color:var(--ink);font-family:var(--mono);font-size:11px;padding:3px 6px;
-  text-align:right;outline:none;transition:border-color .15s;flex-shrink:0
-}
+.ctrl-body input[type=range]{flex:1;-webkit-appearance:none;height:3px;background:var(--cream3);border-radius:2px;outline:none;cursor:pointer}
+.ctrl-body input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:var(--amber);cursor:pointer;border:2.5px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.ni{width:70px;background:var(--cream);border:1px solid var(--border);border-radius:5px;color:var(--ink);font-family:var(--mono);font-size:11px;padding:4px 6px;text-align:right;outline:none;transition:border-color .15s;flex-shrink:0}
 .ni:focus{border-color:var(--amber);background:#fff}
 .ni::-webkit-inner-spin-button,.ni::-webkit-outer-spin-button{opacity:.4}
-
-/* dim grid */
-.dim-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;margin-bottom:10px}
+.dim-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;margin-bottom:9px}
 .dim-item label{font-size:10px;color:var(--ink3);display:block;margin-bottom:3px;text-align:center}
-.di{
-  width:100%;background:var(--cream);border:1px solid var(--border);border-radius:5px;
-  color:var(--ink);font-family:var(--mono);font-size:12px;padding:5px 6px;
-  text-align:center;outline:none;transition:border-color .15s
-}
+.di{width:100%;background:var(--cream);border:1px solid var(--border);border-radius:5px;color:var(--ink);font-family:var(--mono);font-size:13px;padding:6px;text-align:center;outline:none;transition:border-color .15s}
 .di:focus{border-color:var(--amber);background:#fff}
-
 /* tier badge */
-.tier-badge{border-radius:var(--r);padding:10px 12px;margin-bottom:0}
-.tier-badge.ok{background:var(--green-bg);border:1px solid var(--green-bd)}
-.tier-badge.warn{background:var(--amber-bg);border:1px solid var(--amber-bd)}
-.tier-badge.bad{background:var(--red-bg);border:1px solid var(--red-bd)}
+.tier-badge{border-radius:var(--r);padding:10px 12px;border:1px solid}
+.tier-badge.ok{background:var(--green-bg);border-color:var(--green-bd)}.tier-badge.warn{background:var(--amber-bg);border-color:var(--amber-bd)}.tier-badge.bad{background:var(--red-bg);border-color:var(--red-bd)}
 .tb-row{display:flex;justify-content:space-between;align-items:center}
-.tb-name{font-size:11px;font-weight:500}
-.tb-name.ok{color:var(--green)}.tb-name.warn{color:var(--amber)}.tb-name.bad{color:var(--red)}
-.tb-fee{font-family:var(--mono);font-size:14px;font-weight:500}
-.tb-fee.ok{color:var(--green)}.tb-fee.warn{color:var(--amber)}.tb-fee.bad{color:var(--red)}
+.tb-name{font-size:11px;font-weight:500}.tb-name.ok{color:var(--green)}.tb-name.warn{color:var(--amber)}.tb-name.bad{color:var(--red)}
+.tb-fee{font-family:var(--mono);font-size:14px;font-weight:500}.tb-fee.ok{color:var(--green)}.tb-fee.warn{color:var(--amber)}.tb-fee.bad{color:var(--red)}
 .tb-meta{font-size:10px;color:var(--ink3);margin-top:3px;line-height:1.5}
-
 /* checkbox */
 .chk-row{display:flex;align-items:center;gap:8px;margin-bottom:7px;cursor:pointer}
 .chk-row:last-child{margin-bottom:0}
-.chk-row input[type=checkbox]{accent-color:var(--amber);width:13px;height:13px;cursor:pointer;flex-shrink:0}
+.chk-row input[type=checkbox]{accent-color:var(--amber);width:14px;height:14px;cursor:pointer;flex-shrink:0}
 .chk-row span{font-size:11px;color:var(--ink2)}
-
-/* ─── MAIN PANEL ─── */
-.section-heading{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);margin-bottom:10px}
-
-/* KPI grid */
+/* main */
+.section-hd{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);margin-bottom:10px}
+/* KPIs */
 .kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}
-.kpi-card{background:#fff;border:1px solid var(--border);border-radius:var(--r2);padding:14px 15px;box-shadow:var(--shadow)}
-.kpi-card.pos{border-top:3px solid var(--green)}
-.kpi-card.neg{border-top:3px solid var(--red)}
-.kpi-card.warn{border-top:3px solid var(--amber)}
-.kpi-card.blue{border-top:3px solid var(--blue)}
-.kpi-card.neutral{border-top:3px solid var(--border2)}
-.kl{font-size:10px;color:var(--ink3);letter-spacing:.05em;margin-bottom:5px}
-.kv{font-family:var(--mono);font-size:20px;font-weight:500;line-height:1}
+.kc{background:#fff;border:1px solid var(--border);border-radius:var(--r2);padding:13px 14px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.kc::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--border)}
+.kc.pos::before{background:var(--green)}.kc.neg::before{background:var(--red)}.kc.warn::before{background:var(--amber)}.kc.blue::before{background:var(--blue)}.kc.neu::before{background:var(--border2)}
+.kl{font-size:10px;color:var(--ink3);letter-spacing:.04em;margin-bottom:5px}
+.kv{font-family:var(--mono);font-size:19px;font-weight:500;line-height:1}
 .kv.pos{color:var(--green)}.kv.neg{color:var(--red)}.kv.warn{color:var(--amber)}.kv.blue{color:var(--blue)}.kv.neu{color:var(--ink)}
 .ks{font-size:10px;color:var(--ink3);margin-top:4px;font-family:var(--mono)}
-
-/* Tier table */
+/* cost breakdown */
+.cb-panel{background:#fff;border:1px solid var(--border);border-radius:var(--r2);margin-bottom:14px;box-shadow:var(--shadow);overflow:hidden}
+.cb-hdr{padding:11px 15px;background:var(--cream);border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+.cb-hdr-t{font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink3)}
+.cb-hdr-p{font-family:var(--mono);font-size:12px;color:var(--ink2);font-weight:500}
+.cb-group{border-bottom:1px solid var(--border)}.cb-group:last-child{border-bottom:none}
+.cb-group-lbl{padding:6px 15px 3px;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4);background:var(--cream2)}
+.cb-row{display:flex;align-items:center;gap:9px;padding:6px 15px;border-bottom:.5px solid rgba(0,0,0,.04)}
+.cb-row:last-child{border-bottom:none}
+.cb-lbl{flex:0 0 155px;font-size:11px;color:var(--ink2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cb-bar-wrap{flex:1;height:13px;background:var(--cream2);border-radius:3px;overflow:hidden}
+.cb-bar{height:100%;border-radius:3px;transition:width .35s ease}
+.cb-pct{flex:0 0 40px;font-family:var(--mono);font-size:10px;color:var(--ink3);text-align:right}
+.cb-amt{flex:0 0 64px;font-family:var(--mono);font-size:11px;font-weight:500;text-align:right}
+.cb-amt.pos{color:var(--green)}.cb-amt.cost{color:var(--red)}
+.cb-total{display:flex;align-items:center;gap:9px;padding:10px 15px;background:var(--cream);border-top:1.5px solid var(--border)}
+.cb-total .cb-lbl{font-weight:500;color:var(--ink);font-size:12px}
+.cb-total .cb-bar-wrap{background:var(--cream3)}
+.cb-total .cb-pct{color:var(--ink2);font-size:11px}
+.cb-total .cb-amt{font-size:13px}
+/* scenario */
+.sc-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin-bottom:16px}
+.sc-card{background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:10px 7px;text-align:center;box-shadow:var(--shadow)}
+.sc-card.cur{border-color:var(--amber);border-width:1.5px}
+.sc-tag{font-size:9px;color:var(--ink3);letter-spacing:.06em;text-transform:uppercase;margin-bottom:3px}
+.sc-price{font-size:10px;color:var(--ink3);font-family:var(--mono);margin-bottom:3px}
+.sc-m{font-family:var(--mono);font-size:14px;font-weight:500}
+.sc-rmb{font-size:10px;font-family:var(--mono);color:var(--ink3);margin-top:2px}
+/* UK tier table */
 .tier-panel{background:#fff;border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;margin-bottom:14px;box-shadow:var(--shadow)}
-.tier-panel-hdr{padding:10px 15px;background:var(--cream);border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
-.tier-panel-hdr span:first-child{font-size:11px;font-weight:500;color:var(--ink2)}
-.tier-panel-hdr span:last-child{font-size:10px;color:var(--ink3)}
+.tier-panel-hdr{padding:10px 15px;background:var(--cream);border-bottom:1px solid var(--border);display:flex;justify-content:space-between;font-size:11px}
 .tr-row{display:flex;align-items:center;padding:7px 15px;border-bottom:1px solid var(--border);font-size:11px}
-.tr-row:last-child{border-bottom:none}
-.tr-row.active{background:var(--green-bg)}
-.tr-row.active .tr-name{color:var(--green);font-weight:500}
-.tr-row.active .tr-fee{color:var(--green);font-weight:500}
-.tr-name{flex:0 0 130px;color:var(--ink2)}
-.tr-dims{flex:1;font-size:10px;color:var(--ink3)}
+.tr-row:last-child{border-bottom:none}.tr-row.active{background:var(--green-bg)}
+.tr-row.active .tr-name,.tr-row.active .tr-fee{color:var(--green);font-weight:500}
+.tr-name{flex:0 0 130px;color:var(--ink2)}.tr-dims{flex:1;font-size:10px;color:var(--ink3)}
 .tr-wt{flex:0 0 90px;font-size:10px;color:var(--ink3);text-align:center}
 .tr-fee{flex:0 0 55px;font-family:var(--mono);font-size:11px;text-align:right;color:var(--ink)}
 .tr-tick{flex:0 0 22px;text-align:right;font-size:12px}
-
-/* Scenario */
-.sc-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:16px}
-.sc-card{background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:11px 8px;text-align:center;box-shadow:var(--shadow)}
-.sc-card.cur{border-color:var(--amber);border-width:1.5px}
-.sc-tag{font-size:9px;color:var(--ink3);letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px}
-.sc-price{font-size:10px;color:var(--ink3);font-family:var(--mono);margin-bottom:4px}
-.sc-m{font-family:var(--mono);font-size:15px;font-weight:500}
-.sc-rmb{font-size:10px;font-family:var(--mono);color:var(--ink3);margin-top:2px}
-
-/* Waterfall */
-.wf-panel{background:#fff;border:1px solid var(--border);border-radius:var(--r2);padding:16px;margin-bottom:14px;box-shadow:var(--shadow)}
-.wf-row{display:flex;align-items:center;gap:9px;margin-bottom:6px}
-.wf-label{font-size:11px;color:var(--ink2);min-width:165px;flex-shrink:0}
-.wf-track{flex:1;height:16px;background:var(--cream2);border-radius:3px;overflow:hidden}
-.wf-fill{height:100%;border-radius:3px;transition:width .3s ease}
-.wf-amt{font-family:var(--mono);font-size:11px;min-width:60px;text-align:right;font-weight:500}
-.wf-pos{color:var(--green)}.wf-neg{color:var(--ink2)}
-.wf-sep{border:none;border-top:1px solid var(--border);margin:8px 0}
-.wf-total .wf-label{color:var(--ink);font-weight:500;font-size:12px}
-.wf-total .wf-amt{font-size:12px}
-
-/* Fee table */
+/* fee table */
 .fee-panel{background:#fff;border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;margin-bottom:14px;box-shadow:var(--shadow)}
 .fee-hdr{padding:10px 15px;background:var(--cream);border-bottom:1px solid var(--border);font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink3)}
 .f-row{display:flex;justify-content:space-between;align-items:center;padding:8px 15px;border-bottom:1px solid var(--border);font-size:11px}
 .f-row:last-child{border-bottom:none}
-.f-lft{color:var(--ink2)}
-.f-nt{font-size:9px;color:var(--ink3);margin-left:6px}
+.f-lft{color:var(--ink2)}.f-nt{font-size:9px;color:var(--ink3);margin-left:5px}
 .f-val{font-family:var(--mono);font-weight:500;color:var(--ink)}
-.f-val.red{color:var(--red)}.f-val.acc{color:var(--green)}.f-val.muted{color:var(--ink3)}
-
-/* Alerts */
+.f-val.red{color:var(--red)}.f-val.acc{color:var(--green)}.f-val.mut{color:var(--ink3)}
+/* alerts */
 .alert{border-radius:var(--r);padding:9px 13px;font-size:11px;line-height:1.6;margin-bottom:10px}
 .alert.warn{background:var(--amber-bg);border:1px solid var(--amber-bd);color:#7A5010}
 .alert.danger{background:var(--red-bg);border:1px solid var(--red-bd);color:#8A1A0A}
 .alert.good{background:var(--green-bg);border:1px solid var(--green-bd);color:#1A5A3A}
 .alert.info{background:var(--blue-bg);border:1px solid var(--blue-bd);color:#0A3A6A}
-
 .footnote{font-size:10px;color:var(--ink3);line-height:1.7;margin-top:4px;padding:0 2px}
-
-/* ─── PRINT STYLES ─── */
-@media print{
-  @page{size:A4;margin:15mm 14mm}
-  body{background:#fff;font-size:11px}
-  .topbar{display:none!important}
-  .app{display:block}
-  .body{display:block}
-  .sidebar{display:none!important}
-  .main{padding:0;overflow:visible;background:#fff}
-  .btn-export,.mkt-tabs,.bottom-nav,.alert,.footnote{display:none!important}
-  .kpi-grid{grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px;page-break-inside:avoid}
-  .kpi-card{box-shadow:none;border:1px solid #ddd;page-break-inside:avoid}
-  .kpi-card.pos{border-top:2px solid #2E7D5A}.kpi-card.neg{border-top:2px solid #C0392B}.kpi-card.warn{border-top:2px solid #C8820A}.kpi-card.blue{border-top:2px solid #1A5FA0}
-  .wf-panel,.fee-panel,.tier-panel,.sc-grid{page-break-inside:avoid;box-shadow:none}
-  .wf-track{background:#eee}
-  .print-hdr{display:flex!important;align-items:center;gap:14px;margin-bottom:14px;padding-bottom:12px;border-bottom:2px solid #1A1916}
-  .print-hdr-img{width:56px;height:56px;border-radius:6px;object-fit:cover;border:1px solid #ddd;flex-shrink:0}
-  .print-hdr-img.placeholder{background:#f0ede8;display:flex;align-items:center;justify-content:center;font-size:22px}
-  .print-hdr-info h1{font-family:'Fraunces',Georgia,serif;font-size:18px;font-weight:500;color:#1A1916;margin-bottom:2px}
-  .print-hdr-info p{font-size:10px;color:#8A8680;letter-spacing:.06em}
-  .sc-grid{grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:12px}
-  .sc-card{box-shadow:none;border:1px solid #ddd}
-  #uk-tier-section{display:block!important}
-  /* ── Page 2: cost parameters ── */
-  .print-cost-page{
-    display:block!important;
-    page-break-before:always;
-    padding-top:4mm;
-  }
-  .print-cost-page h2{
-    font-family:'Fraunces',Georgia,serif;font-size:14px;font-weight:500;
-    color:#1A1916;margin-bottom:10px;padding-bottom:8px;
-    border-bottom:1.5px solid #1A1916;
-  }
-  .pcp-grid{display:grid;grid-template-columns:1fr 1fr;gap:0}
-  .pcp-section{padding:10px 14px;border:0.5px solid #ddd}
-  .pcp-section:nth-child(odd){border-right:none}
-  .pcp-title{font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:#8A8680;margin-bottom:8px;font-weight:500}
-  .pcp-row{display:flex;justify-content:space-between;padding:3px 0;font-size:10.5px;border-bottom:0.5px solid #f0ede8}
-  .pcp-row:last-child{border-bottom:none}
-  .pcp-label{color:#4A4844}
-  .pcp-val{font-family:'DM Mono',monospace;font-weight:500;color:#1A1916}
-  .pcp-tier{margin-top:10px;padding:8px 14px;background:#f6f3ee;border-radius:4px;font-size:10px}
-}
-@media screen{
-  .print-hdr{display:none}
-  .print-cost-page{display:none}
-}
-
-/* ─── ARCHIVE PANEL ─── */
-.archive-panel{
-  position:absolute;inset:0;bottom:56px;
-  background:var(--cream);overflow-y:auto;
-  -webkit-overflow-scrolling:touch;
-  opacity:0;pointer-events:none;transform:translateY(8px);
-  transition:opacity .2s ease, transform .2s ease;
-  padding:16px;
-}
+/* archive */
+.archive-panel{position:absolute;inset:0;bottom:calc(56px + env(safe-area-inset-bottom));background:var(--cream);overflow-y:auto;-webkit-overflow-scrolling:touch;opacity:0;pointer-events:none;transform:translateY(8px);transition:opacity .2s,transform .2s;padding:16px}
 .archive-panel.visible{opacity:1;pointer-events:auto;transform:none}
-.arch-toolbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
-.arch-toolbar h3{font-family:var(--serif);font-size:15px;font-weight:500;color:var(--ink)}
-.btn-save{
-  display:flex;align-items:center;gap:6px;padding:8px 16px;
-  background:var(--amber);color:#fff;border:none;border-radius:var(--r);
-  font-size:12px;font-weight:500;cursor:pointer;font-family:var(--sans);
-  transition:background .15s;
-}
-.btn-save:hover{background:#a86808}
+.arch-toolbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.arch-toolbar h3{font-family:var(--serif);font-size:15px;font-weight:500}
+.btn-save{display:flex;align-items:center;gap:6px;padding:8px 14px;background:var(--amber);color:#fff;border:none;border-radius:var(--r);font-size:12px;font-weight:500;cursor:pointer;font-family:var(--sans)}
 .arch-empty{text-align:center;padding:40px 20px;color:var(--ink3);font-size:12px;line-height:1.8}
-.arch-list{display:flex;flex-direction:column;gap:10px}
-.arch-card{
-  background:#fff;border:1px solid var(--border);border-radius:var(--r2);
-  padding:13px 14px;display:flex;align-items:center;gap:12px;
-  cursor:pointer;transition:border-color .15s;box-shadow:var(--shadow);
-}
+.arch-list{display:flex;flex-direction:column;gap:9px}
+.arch-card{background:#fff;border:1px solid var(--border);border-radius:var(--r2);padding:12px 13px;display:flex;align-items:center;gap:11px;cursor:pointer;box-shadow:var(--shadow);transition:border-color .15s}
 .arch-card:hover{border-color:var(--amber)}
-.arch-thumb{
-  width:44px;height:44px;border-radius:6px;flex-shrink:0;
-  object-fit:cover;background:var(--cream2);
-  display:flex;align-items:center;justify-content:center;font-size:18px;
-}
-.arch-thumb img{width:44px;height:44px;border-radius:6px;object-fit:cover}
+.arch-thumb{width:42px;height:42px;border-radius:6px;flex-shrink:0;background:var(--cream2);display:flex;align-items:center;justify-content:center;font-size:18px;overflow:hidden}
+.arch-thumb img{width:100%;height:100%;object-fit:cover}
 .arch-info{flex:1;min-width:0}
-.arch-name{font-size:13px;font-weight:500;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.arch-name{font-size:13px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .arch-sub{font-size:10px;color:var(--ink3);margin-top:2px}
 .arch-metrics{text-align:right;flex-shrink:0}
-.arch-margin{font-family:var(--mono);font-size:15px;font-weight:500}
+.arch-margin{font-family:var(--mono);font-size:14px;font-weight:500}
 .arch-rmb{font-size:10px;font-family:var(--mono);color:var(--ink3);margin-top:1px}
-.arch-del{
-  width:28px;height:28px;border:none;background:transparent;
-  color:var(--ink4);cursor:pointer;border-radius:4px;
-  display:flex;align-items:center;justify-content:center;flex-shrink:0;
-  transition:color .15s,background .15s;font-size:15px;
-}
+.arch-del{width:26px;height:26px;border:none;background:transparent;color:var(--ink4);cursor:pointer;border-radius:4px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:16px;transition:color .15s,background .15s}
 .arch-del:hover{color:var(--red);background:var(--red-bg)}
-.arch-count{font-size:10px;color:var(--ink3);margin-bottom:8px}
-
-/* ─── MOBILE BOTTOM NAV ─── */
+/* bottom nav */
 .bottom-nav{display:none}
+/* print / pdf-root screen hide */
+#pdf-root{display:none}
 
-/* ─── RESPONSIVE ─── */
+/* ── MOBILE ── */
 @media(max-width:900px){
-  /* safe area: topbar clears notch / Dynamic Island */
-  .topbar{
-    padding-top:env(safe-area-inset-top);
-    height:calc(52px + env(safe-area-inset-top));
-    padding-left:max(16px, env(safe-area-inset-left));
-    padding-right:max(16px, env(safe-area-inset-right));
-    gap:10px;
-  }
-  /* hide desktop topbar extras, show only logo + market */
-  .topbar-divider,.topbar-title,.topbar-spacer,.btn-export{display:none}
-  .mkt-tabs{margin-left:auto}
-  .mkt{font-size:11px;padding:5px 10px}
-
-  /* body becomes single full-height column */
-  .body{
-    display:block;
-    height:calc(100vh - 52px - env(safe-area-inset-top));
-    position:relative;
-    overflow:hidden;
-  }
-
-  /* sidebar and main become full-size panels */
-  .sidebar,.main{
-    position:absolute;inset:0;
-    bottom:56px; /* space for bottom nav */
-    overflow-y:auto;
-    -webkit-overflow-scrolling:touch;
-    transition:opacity .2s ease, transform .2s ease;
-  }
-  .archive-panel{
-    bottom:calc(56px + env(safe-area-inset-bottom));
-  }
-  .sidebar{border-right:none;border-bottom:none}
-  .main{padding:16px;background:var(--cream)}
-
-  /* panel switching via JS class */
-  .sidebar.panel-hidden{opacity:0;pointer-events:none;transform:translateX(-12px)}
-  .main.panel-hidden{opacity:0;pointer-events:none;transform:translateX(12px)}
-
-  /* bottom nav bar */
-  .bottom-nav{
-    display:flex;position:absolute;bottom:0;left:0;right:0;
-    height:calc(56px + env(safe-area-inset-bottom));
-    padding-bottom:env(safe-area-inset-bottom);
-    background:#fff;border-top:1px solid var(--border);
-    z-index:50;
-  }
-  .bn-tab{
-    flex:1;display:flex;flex-direction:column;align-items:center;
-    justify-content:center;gap:3px;border:none;background:transparent;
-    font-family:var(--sans);font-size:10px;color:var(--ink3);
-    cursor:pointer;transition:color .15s;padding-top:4px;
-  }
-  .bn-tab.active{color:var(--amber)}
-  .bn-tab svg{width:20px;height:20px;flex-shrink:0}
+  .topbar{gap:8px}
+  .body{display:block;height:calc(100vh - 52px - env(safe-area-inset-top));position:relative;overflow:hidden}
+  .sidebar,.main{position:absolute;inset:0;bottom:calc(56px + env(safe-area-inset-bottom));overflow-y:auto;-webkit-overflow-scrolling:touch;transition:opacity .2s,transform .2s}
+  .sidebar{border-right:none}
+  .main{padding:14px}
+  .sidebar.phide{opacity:0;pointer-events:none;transform:translateX(-10px)}
+  .main.phide{opacity:0;pointer-events:none;transform:translateX(10px)}
+  .bottom-nav{display:flex;position:absolute;bottom:0;left:0;right:0;height:calc(56px + env(safe-area-inset-bottom));padding-bottom:env(safe-area-inset-bottom);background:#fff;border-top:1px solid var(--border);z-index:50}
+  .bn-tab{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;border:none;background:transparent;font-family:var(--sans);font-size:10px;color:var(--ink3);cursor:pointer;padding-top:4px;transition:color .15s}
+  .bn-tab.active{color:var(--amber)}.bn-tab svg{width:20px;height:20px}
   .bn-tab-export{border-left:1px solid var(--border)}
-
-  /* tighter mobile layouts */
   .kpi-grid{grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
   .sc-grid{grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:12px}
   .kv{font-size:17px}
-
-  /* bigger touch targets for sliders */
   .ctrl-body input[type=range]{height:4px}
   .ctrl-body input[type=range]::-webkit-slider-thumb{width:20px;height:20px}
-  .ctrl{margin-bottom:14px}
-  .ni{width:72px;font-size:12px;padding:5px 7px}
+  .ctrl{margin-bottom:13px}
+  .cb-lbl{flex:0 0 125px;font-size:10px}
+  .cb-pct{flex:0 0 34px;font-size:9px}
+  .cb-amt{flex:0 0 58px;font-size:10px}
+}
 
-  /* dim inputs larger */
-  .di{font-size:14px;padding:8px 6px}
-  .dim-item label{font-size:11px}
-
-  /* waterfall label shorter on mobile */
-  .wf-label{min-width:130px;font-size:10px}
-  .wf-amt{font-size:10px;min-width:52px}
-
-  /* product header more compact */
-  .product-hdr{padding:12px 14px}
-  .product-name-input{font-size:14px}
+/* ── PRINT ── */
+@media print{
+  @page{size:A4;margin:14mm 14mm}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  body{background:#fff}
+  .topbar,.body,.bottom-nav,.alert,.archive-panel,#install-banner{display:none!important}
+  #pdf-root{display:block!important}
+  .pdf-page{page-break-after:always;padding:0}
+  .pdf-page:last-child{page-break-after:avoid}
+  .pdf-hdr{display:flex;align-items:center;gap:14px;margin-bottom:14px;padding-bottom:12px;border-bottom:2px solid #1A1916}
+  .pdf-hdr-img{width:54px;height:54px;border-radius:7px;overflow:hidden;background:#f0ede8;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+  .pdf-hdr-img img{width:54px;height:54px;object-fit:cover;border-radius:7px}
+  .pdf-hdr-info h1{font-family:'Fraunces',Georgia,serif;font-size:17px;font-weight:500;color:#1A1916;margin-bottom:2px}
+  .pdf-hdr-info p{font-size:10px;color:#8A8680;letter-spacing:.05em}
+  .pdf-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px}
+  .pdf-kpi{border:1px solid #ddd;border-radius:8px;padding:10px 12px}
+  .pdf-kpi.pos{border-top:2px solid #2E7D5A}.pdf-kpi.neg{border-top:2px solid #C0392B}
+  .pdf-kpi.warn{border-top:2px solid #C8820A}.pdf-kpi.blue{border-top:2px solid #1A5FA0}
+  .pdf-kl{font-size:9px;color:#8A8680;margin-bottom:4px}
+  .pdf-kv{font-family:'DM Mono',monospace;font-size:17px;font-weight:500}
+  .pdf-kv.pos{color:#2E7D5A}.pdf-kv.neg{color:#C0392B}.pdf-kv.warn{color:#C8820A}.pdf-kv.blue{color:#1A5FA0}.pdf-kv.neu{color:#1A1916}
+  .pdf-ks{font-size:9px;color:#8A8680;font-family:'DM Mono',monospace;margin-top:2px}
+  .pdf-shd{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:#8A8680;margin:10px 0 6px}
+  .pdf-sc-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:12px}
+  .pdf-sc{border:1px solid #ddd;border-radius:6px;padding:9px 7px;text-align:center}
+  .pdf-sc.cur{border-color:#C8820A}
+  .pdf-sc-tag{font-size:8px;color:#8A8680;letter-spacing:.06em;text-transform:uppercase;margin-bottom:3px}
+  .pdf-sc-price{font-size:9px;color:#8A8680;font-family:'DM Mono',monospace;margin-bottom:3px}
+  .pdf-sc-m{font-family:'DM Mono',monospace;font-size:13px;font-weight:500}
+  .pdf-sc-rmb{font-size:9px;font-family:'DM Mono',monospace;color:#8A8680;margin-top:1px}
+  .pdf-cb{margin-bottom:12px;border:1px solid #ddd;border-radius:8px;overflow:hidden}
+  .pdf-cb-hdr{padding:9px 13px;background:#F6F3EE;border-bottom:1px solid #ddd;display:flex;justify-content:space-between;font-size:9px;letter-spacing:.09em;text-transform:uppercase;color:#8A8680}
+  .pdf-cb-glbl{padding:5px 13px 3px;font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:#B8B4AE;background:#EDE9E2}
+  .pdf-cb-row{display:flex;align-items:center;gap:8px;padding:5px 13px;border-bottom:.5px solid #f0ede8}
+  .pdf-cb-row:last-child{border-bottom:none}
+  .pdf-cb-lbl{flex:0 0 150px;font-size:10px;color:#4A4844}
+  .pdf-cb-bw{flex:1;height:11px;background:#EDE9E2;border-radius:2px;overflow:hidden}
+  .pdf-cb-bar{height:100%;border-radius:2px}
+  .pdf-cb-pct{flex:0 0 38px;font-family:'DM Mono',monospace;font-size:9px;color:#8A8680;text-align:right}
+  .pdf-cb-amt{flex:0 0 58px;font-family:'DM Mono',monospace;font-size:10px;font-weight:500;text-align:right}
+  .pdf-cb-total{display:flex;align-items:center;gap:8px;padding:8px 13px;background:#F6F3EE;border-top:1.5px solid #ddd}
+  .pdf-cb-total .pdf-cb-lbl{font-weight:500;color:#1A1916;font-size:11px}
+  .pdf-cb-total .pdf-cb-amt{font-size:12px}
+  .pdf-fee{border:1px solid #ddd;border-radius:8px;overflow:hidden;margin-bottom:12px}
+  .pdf-fee-hdr{padding:8px 13px;background:#F6F3EE;border-bottom:1px solid #ddd;font-size:9px;letter-spacing:.09em;text-transform:uppercase;color:#8A8680}
+  .pdf-fr{display:flex;justify-content:space-between;padding:6px 13px;border-bottom:.5px solid #f0ede8;font-size:10px}
+  .pdf-fr:last-child{border-bottom:none}
+  .pdf-fr-l{color:#4A4844}.pdf-fr-n{font-size:8px;color:#8A8680;margin-left:5px}
+  .pdf-fr-v{font-family:'DM Mono',monospace;font-weight:500;color:#1A1916}
+  .pdf-fr-v.red{color:#C0392B}.pdf-fr-v.acc{color:#2E7D5A}.pdf-fr-v.mut{color:#8A8680}
+  .pdf-p2-grid{display:grid;grid-template-columns:1fr 1fr;gap:0}
+  .pdf-p2-sec{padding:9px 13px;border:.5px solid #ddd}
+  .pdf-p2-title{font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:#8A8680;margin-bottom:6px;font-weight:500}
+  .pdf-p2-row{display:flex;justify-content:space-between;padding:3px 0;font-size:10px;border-bottom:.5px solid #F0EDE8}
+  .pdf-p2-row:last-child{border-bottom:none}
+  .pdf-p2-l{color:#4A4844}.pdf-p2-v{font-family:'DM Mono',monospace;font-weight:500;color:#1A1916}
+  .pdf-fn{font-size:8px;color:#8A8680;margin-top:10px;line-height:1.6}
 }
 </style>
 </head>
 <body>
-<div class="app">
+<div class="body" style="display:none" id="appbody"><!-- placeholder --></div>
 
-<!-- TOP BAR -->
+<div style="display:contents" id="approot">
 <header class="topbar">
   <div class="topbar-logo"><span>Qoolighten</span> FBA</div>
-  <div class="topbar-divider"></div>
-  <div class="topbar-title">利润计算器 2026</div>
   <div class="topbar-spacer"></div>
   <div class="mkt-tabs">
-    <button class="mkt active" onclick="setMarket('us',this)">🇺🇸 美国站 USD</button>
-    <button class="mkt" onclick="setMarket('uk',this)">🇬🇧 英国站 GBP</button>
+    <button class="mkt active" id="btn-us" onclick="setMarket('us',this)">🇺🇸 美国站 USD</button>
+    <button class="mkt" id="btn-uk" onclick="setMarket('uk',this)">🇬🇧 英国站 GBP</button>
   </div>
-  <div style="width:12px"></div>
-  <button class="btn-export" onclick="window.print()">
-    <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><rect x="3" y="1" width="10" height="7" rx="1" stroke="currentColor" stroke-width="1.3"/><rect x="1" y="6" width="14" height="7" rx="1" stroke="currentColor" stroke-width="1.3"/><rect x="4" y="10" width="8" height="4" rx=".5" fill="currentColor" opacity=".4"/><circle cx="12.5" cy="9" r="1" fill="currentColor"/></svg>
-    导出 PDF
-  </button>
 </header>
 
-<div class="body">
-<!-- SIDEBAR -->
+<div class="body" id="body-wrap">
 <aside class="sidebar" id="panel-input">
-
-  <!-- Product Header -->
   <div class="product-hdr">
-    <div class="img-upload" id="img-upload-area" onclick="document.getElementById('img-input').click()">
+    <div class="img-upload" onclick="document.getElementById('img-input').click()">
       <input type="file" id="img-input" accept="image/*" style="display:none" onchange="handleImg(this)">
-      <span class="img-placeholder" id="img-placeholder">📷</span>
-      <img id="img-preview" src="" alt="" style="display:none;width:100%;height:100%;object-fit:cover;border-radius:6px">
+      <span class="img-ph" id="img-ph">📷</span>
+      <img id="img-prev" alt="">
     </div>
-    <div class="product-name-wrap">
+    <div class="pn-wrap">
       <label>产品名称</label>
-      <input class="product-name-input" type="text" id="product-name" placeholder="例：壁灯 Wall Lamp" value="">
+      <input class="pn-input" type="text" id="product-name" placeholder="例：壁灯 Wall Lamp">
     </div>
   </div>
-
-  <!-- Dimensions -->
   <div class="sec">
-    <div class="sec-lbl"><span class="sec-lbl-icon">📐</span>产品尺寸（成品包装 cm）</div>
+    <div class="sec-lbl">📐 产品尺寸（成品包装 cm）</div>
     <div class="dim-grid">
       <div class="dim-item"><label>长 L</label><input class="di" type="number" id="dim_l" value="45" min="1" max="300" step="0.5" oninput="calc()"></div>
       <div class="dim-item"><label>宽 W</label><input class="di" type="number" id="dim_w" value="30" min="1" max="300" step="0.5" oninput="calc()"></div>
@@ -429,759 +291,457 @@ body{background:var(--cream);color:var(--ink);font-family:var(--sans);font-size:
       <div class="ctrl-body"><input type="range" id="r_weight" min="0.01" max="30" step="0.01" value="2.0" oninput="syncN('weight',this.value)"><input class="ni" type="number" id="n_weight" value="2.00" min="0.01" max="30" step="0.01" oninput="syncR('weight',this.value)"></div>
     </div>
     <div id="tier-badge" class="tier-badge ok">
-      <div class="tb-row"><span class="tb-name ok" id="tb-name">Large Standard</span><span class="tb-fee ok" id="tb-fee">$5.08</span></div>
+      <div class="tb-row"><span class="tb-name ok" id="tb-name">—</span><span class="tb-fee ok" id="tb-fee">—</span></div>
       <div class="tb-meta" id="tb-meta">—</div>
     </div>
   </div>
-
-  <!-- Cost -->
   <div class="sec">
-    <div class="sec-lbl"><span class="sec-lbl-icon">🏭</span>成本结构</div>
-    <div class="ctrl">
-      <div class="ctrl-hdr"><span class="ctrl-name">产品成本 (¥)</span><span class="ctrl-val" id="lv_cogs">¥150</span></div>
-      <div class="ctrl-body"><input type="range" id="r_cogs" min="5" max="250" step="1" value="150" oninput="syncN('cogs',this.value)"><input class="ni" type="number" id="n_cogs" value="150" min="5" max="250" step="1" oninput="syncR('cogs',this.value)"></div>
-    </div>
-    <div class="ctrl">
-      <div class="ctrl-hdr"><span class="ctrl-name">包装材料费/件 (¥)</span><span class="ctrl-val" id="lv_pkg">¥5</span></div>
-      <div class="ctrl-body"><input type="range" id="r_pkg" min="0" max="50" step="0.5" value="5" oninput="syncN('pkg',this.value)"><input class="ni" type="number" id="n_pkg" value="5" min="0" max="50" step="0.5" oninput="syncR('pkg',this.value)"></div>
-    </div>
-    <div class="ctrl">
-      <div class="ctrl-hdr"><span class="ctrl-name">质检费均摊/件 (¥)</span><span class="ctrl-val" id="lv_qc">¥3</span></div>
-      <div class="ctrl-body"><input type="range" id="r_qc" min="0" max="30" step="0.5" value="3" oninput="syncN('qc',this.value)"><input class="ni" type="number" id="n_qc" value="3" min="0" max="30" step="0.5" oninput="syncR('qc',this.value)"></div>
-    </div>
-    <div class="ctrl">
-      <div class="ctrl-hdr"><span class="ctrl-name" id="lbl_ship">头程运费/件 ($)</span><span class="ctrl-val" id="lv_ship">$4.00</span></div>
-      <div class="ctrl-body"><input type="range" id="r_ship" min="0.5" max="15" step="0.5" value="4" oninput="syncN('ship',this.value)"><input class="ni" type="number" id="n_ship" value="4.00" min="0.5" max="15" step="0.1" oninput="syncR('ship',this.value)"></div>
-    </div>
-    <div class="ctrl">
-      <div class="ctrl-hdr"><span class="ctrl-name">关税率 (%)</span><span class="ctrl-val" id="lv_duty">3.9%</span></div>
-      <div class="ctrl-body"><input type="range" id="r_duty" min="0" max="25" step="0.1" value="3.9" oninput="syncN('duty',this.value)"><input class="ni" type="number" id="n_duty" value="3.9" min="0" max="25" step="0.1" oninput="syncR('duty',this.value)"></div>
-    </div>
-    <div class="ctrl">
-      <div class="ctrl-hdr"><span class="ctrl-name" id="lbl_fx">汇率 RMB/USD</span><span class="ctrl-val" id="lv_fx">7.25</span></div>
-      <div class="ctrl-body"><input type="range" id="r_fx" min="6.5" max="8.0" step="0.01" value="7.25" oninput="syncN('fx',this.value)"><input class="ni" type="number" id="n_fx" value="7.25" min="6.5" max="8.0" step="0.01" oninput="syncR('fx',this.value)"></div>
-    </div>
+    <div class="sec-lbl">🏭 成本结构</div>
+    <div class="ctrl"><div class="ctrl-hdr"><span class="ctrl-name">产品成本 (¥)</span><span class="ctrl-val" id="lv_cogs">¥150</span></div><div class="ctrl-body"><input type="range" id="r_cogs" min="5" max="250" step="1" value="150" oninput="syncN('cogs',this.value)"><input class="ni" type="number" id="n_cogs" value="150" min="5" max="250" step="1" oninput="syncR('cogs',this.value)"></div></div>
+    <div class="ctrl"><div class="ctrl-hdr"><span class="ctrl-name">包装材料费/件 (¥)</span><span class="ctrl-val" id="lv_pkg">¥5</span></div><div class="ctrl-body"><input type="range" id="r_pkg" min="0" max="50" step="0.5" value="5" oninput="syncN('pkg',this.value)"><input class="ni" type="number" id="n_pkg" value="5" min="0" max="50" step="0.5" oninput="syncR('pkg',this.value)"></div></div>
+    <div class="ctrl"><div class="ctrl-hdr"><span class="ctrl-name">质检费均摊/件 (¥)</span><span class="ctrl-val" id="lv_qc">¥3</span></div><div class="ctrl-body"><input type="range" id="r_qc" min="0" max="30" step="0.5" value="3" oninput="syncN('qc',this.value)"><input class="ni" type="number" id="n_qc" value="3" min="0" max="30" step="0.5" oninput="syncR('qc',this.value)"></div></div>
+    <div class="ctrl"><div class="ctrl-hdr"><span class="ctrl-name" id="lbl_ship">头程运费/件 ($)</span><span class="ctrl-val" id="lv_ship">$4.00</span></div><div class="ctrl-body"><input type="range" id="r_ship" min="0.5" max="15" step="0.5" value="4" oninput="syncN('ship',this.value)"><input class="ni" type="number" id="n_ship" value="4.00" min="0.5" max="15" step="0.1" oninput="syncR('ship',this.value)"></div></div>
+    <div class="ctrl"><div class="ctrl-hdr"><span class="ctrl-name">关税率 (%)</span><span class="ctrl-val" id="lv_duty">3.9%</span></div><div class="ctrl-body"><input type="range" id="r_duty" min="0" max="30" step="0.1" value="3.9" oninput="syncN('duty',this.value)"><input class="ni" type="number" id="n_duty" value="3.9" min="0" max="30" step="0.1" oninput="syncR('duty',this.value)"></div></div>
+    <div class="ctrl"><div class="ctrl-hdr"><span class="ctrl-name" id="lbl_fx">汇率 RMB/USD</span><span class="ctrl-val" id="lv_fx">7.25</span></div><div class="ctrl-body"><input type="range" id="r_fx" min="6.5" max="10.5" step="0.01" value="7.25" oninput="syncN('fx',this.value)"><input class="ni" type="number" id="n_fx" value="7.25" min="6.5" max="10.5" step="0.01" oninput="syncR('fx',this.value)"></div></div>
   </div>
-
-  <!-- Pricing & Ops -->
   <div class="sec">
-    <div class="sec-lbl"><span class="sec-lbl-icon">💰</span>定价 & 运营</div>
-    <div class="ctrl">
-      <div class="ctrl-hdr"><span class="ctrl-name" id="lbl_price">售价 ($)</span><span class="ctrl-val" id="lv_price">$89.99</span></div>
-      <div class="ctrl-body"><input type="range" id="r_price" min="5" max="150" step="0.5" value="89.99" oninput="syncN('price',this.value)"><input class="ni" type="number" id="n_price" value="89.99" min="5" max="150" step="0.5" oninput="syncR('price',this.value)"></div>
-    </div>
-    <div class="ctrl">
-      <div class="ctrl-hdr"><span class="ctrl-name">推荐费率 (%)</span><span class="ctrl-val" id="lv_ref">15.0%</span></div>
-      <div class="ctrl-body"><input type="range" id="r_ref" min="5" max="20" step="0.5" value="15" oninput="syncN('ref',this.value)"><input class="ni" type="number" id="n_ref" value="15.0" min="5" max="20" step="0.5" oninput="syncR('ref',this.value)"></div>
-    </div>
-    <div class="ctrl">
-      <div class="ctrl-hdr"><span class="ctrl-name">广告 TACoS (%)</span><span class="ctrl-val" id="lv_tacos">12.0%</span></div>
-      <div class="ctrl-body"><input type="range" id="r_tacos" min="0" max="25" step="0.5" value="12" oninput="syncN('tacos',this.value)"><input class="ni" type="number" id="n_tacos" value="12.0" min="0" max="25" step="0.5" oninput="syncR('tacos',this.value)"></div>
-    </div>
-    <div class="ctrl">
-      <div class="ctrl-hdr"><span class="ctrl-name">退货率 (%)</span><span class="ctrl-val" id="lv_return">5.0%</span></div>
-      <div class="ctrl-body"><input type="range" id="r_return" min="0" max="15" step="0.5" value="5" oninput="syncN('return',this.value)"><input class="ni" type="number" id="n_return" value="5.0" min="0" max="15" step="0.5" oninput="syncR('return',this.value)"></div>
-    </div>
-    <div class="ctrl">
-      <div class="ctrl-hdr"><span class="ctrl-name" id="lbl_storage">月仓储分摊/件 ($)</span><span class="ctrl-val" id="lv_storage">$0.40</span></div>
-      <div class="ctrl-body"><input type="range" id="r_storage" min="0" max="3" step="0.05" value="0.4" oninput="syncN('storage',this.value)"><input class="ni" type="number" id="n_storage" value="0.40" min="0" max="3" step="0.05" oninput="syncR('storage',this.value)"></div>
-    </div>
-    <div class="ctrl">
-      <div class="ctrl-hdr"><span class="ctrl-name">月租均摊 (月销量件)</span><span class="ctrl-val" id="lv_units">100 件</span></div>
-      <div class="ctrl-body"><input type="range" id="r_units" min="1" max="500" step="1" value="100" oninput="syncN('units',this.value)"><input class="ni" type="number" id="n_units" value="100" min="1" max="500" step="1" oninput="syncR('units',this.value)"></div>
-    </div>
+    <div class="sec-lbl">💰 定价 & 运营</div>
+    <div class="ctrl"><div class="ctrl-hdr"><span class="ctrl-name" id="lbl_price">售价 ($)</span><span class="ctrl-val" id="lv_price">$89.99</span></div><div class="ctrl-body"><input type="range" id="r_price" min="5" max="150" step="0.5" value="89.99" oninput="syncN('price',this.value)"><input class="ni" type="number" id="n_price" value="89.99" min="5" max="150" step="0.5" oninput="syncR('price',this.value)"></div></div>
+    <div class="ctrl"><div class="ctrl-hdr"><span class="ctrl-name">推荐费率 (%)</span><span class="ctrl-val" id="lv_ref">15.0%</span></div><div class="ctrl-body"><input type="range" id="r_ref" min="5" max="20" step="0.5" value="15" oninput="syncN('ref',this.value)"><input class="ni" type="number" id="n_ref" value="15.0" min="5" max="20" step="0.5" oninput="syncR('ref',this.value)"></div></div>
+    <div class="ctrl"><div class="ctrl-hdr"><span class="ctrl-name">广告 TACoS (%)</span><span class="ctrl-val" id="lv_tacos">12.0%</span></div><div class="ctrl-body"><input type="range" id="r_tacos" min="0" max="25" step="0.5" value="12" oninput="syncN('tacos',this.value)"><input class="ni" type="number" id="n_tacos" value="12.0" min="0" max="25" step="0.5" oninput="syncR('tacos',this.value)"></div></div>
+    <div class="ctrl"><div class="ctrl-hdr"><span class="ctrl-name">退货率 (%)</span><span class="ctrl-val" id="lv_return">5.0%</span></div><div class="ctrl-body"><input type="range" id="r_return" min="0" max="15" step="0.5" value="5" oninput="syncN('return',this.value)"><input class="ni" type="number" id="n_return" value="5.0" min="0" max="15" step="0.5" oninput="syncR('return',this.value)"></div></div>
+    <div class="ctrl"><div class="ctrl-hdr"><span class="ctrl-name" id="lbl_storage">月仓储分摊/件 ($)</span><span class="ctrl-val" id="lv_storage">$0.40</span></div><div class="ctrl-body"><input type="range" id="r_storage" min="0" max="3" step="0.05" value="0.4" oninput="syncN('storage',this.value)"><input class="ni" type="number" id="n_storage" value="0.40" min="0" max="3" step="0.05" oninput="syncR('storage',this.value)"></div></div>
+    <div class="ctrl"><div class="ctrl-hdr"><span class="ctrl-name">月销量 (租金均摊基准)</span><span class="ctrl-val" id="lv_units">100 件</span></div><div class="ctrl-body"><input type="range" id="r_units" min="1" max="500" step="1" value="100" oninput="syncN('units',this.value)"><input class="ni" type="number" id="n_units" value="100" min="1" max="500" step="1" oninput="syncR('units',this.value)"></div></div>
   </div>
-
-  <!-- Surcharges -->
+  <div class="sec" id="sec-vat" style="display:none">
+    <div class="sec-lbl">🧾 增值税 VAT（英国）</div>
+    <label class="chk-row"><input type="checkbox" id="chk_vat" checked onchange="calc()"><span>售价含 VAT（标准零售价，亚马逊代收代缴）</span></label>
+    <div class="ctrl" style="margin-top:8px"><div class="ctrl-hdr"><span class="ctrl-name">VAT 税率 (%)</span><span class="ctrl-val" id="lv_vat">20.0%</span></div><div class="ctrl-body"><input type="range" id="r_vat" min="0" max="25" step="0.5" value="20" oninput="syncN('vat',this.value)"><input class="ni" type="number" id="n_vat" value="20.0" min="0" max="25" step="0.5" oninput="syncR('vat',this.value)"></div></div>
+  </div>
   <div class="sec" style="border-bottom:none">
-    <div class="sec-lbl"><span class="sec-lbl-icon">⚠️</span>附加费选项</div>
-    <label class="chk-row"><input type="checkbox" id="chk_battery" onchange="calc()"><span>含锂电池（+$0.11 / +£0.10）</span></label>
-    <label class="chk-row"><input type="checkbox" id="chk_haz" onchange="calc()"><span>危险品 Hazmat（+$0.11 / +£0.10）</span></label>
-    <label class="chk-row"><input type="checkbox" id="chk_sipp" onchange="calc()"><span>SIPP 认证（US Bulky 免包装附加费）</span></label>
+    <div class="sec-lbl">⚡ 附加费选项</div>
+    <label class="chk-row"><input type="checkbox" id="chk_battery" onchange="calc()"><span>含锂电池（二选一：+$0.11 / +£0.10）</span></label>
+    <label class="chk-row"><input type="checkbox" id="chk_haz" onchange="calc()"><span>其他危险品 Hazmat（二选一：+$0.11 / +£0.10）</span></label>
+    <label class="chk-row"><input type="checkbox" id="chk_sipp" onchange="calc()"><span>SIPP 原包装认证（US Bulky 免附加费）</span></label>
   </div>
 </aside>
 
-<!-- MAIN -->
 <main class="main" id="panel-result">
-
-  <!-- PRINT HEADER (only visible in print) -->
-  <div class="print-hdr" id="print-hdr">
-    <div class="print-hdr-img placeholder" id="ph-img">📦</div>
-    <div class="print-hdr-info">
-      <h1 id="ph-name">产品利润分析</h1>
-      <p id="ph-meta">Amazon FBA 2026 · 生成于 <span id="ph-date"></span></p>
-    </div>
-  </div>
-
   <div id="alert-box"></div>
-
-  <!-- KPIs -->
-  <div class="section-heading">核心指标</div>
+  <div class="section-hd">核心指标</div>
   <div class="kpi-grid">
-    <div class="kpi-card" id="kc-net"><div class="kl">净利润 / 件</div><div class="kv" id="kv-net">—</div><div class="ks" id="ks-net-rmb">—</div></div>
-    <div class="kpi-card" id="kc-margin"><div class="kl">净利润率</div><div class="kv" id="kv-margin">—</div><div class="ks">目标 ≥ 20%</div></div>
-    <div class="kpi-card blue"><div class="kl">FBA 配送费</div><div class="kv blue" id="kv-fba">—</div><div class="ks" id="ks-fba">—</div></div>
-    <div class="kpi-card neutral"><div class="kl">计费重量</div><div class="kv neu" id="kv-bw">—</div><div class="ks" id="ks-bw">—</div></div>
+    <div class="kc" id="kc-net"><div class="kl">净利润 / 件</div><div class="kv" id="kv-net">—</div><div class="ks" id="ks-net">—</div></div>
+    <div class="kc" id="kc-margin"><div class="kl">净利润率</div><div class="kv" id="kv-margin">—</div><div class="ks">目标 ≥ 20%</div></div>
+    <div class="kc blue"><div class="kl">FBA 配送费</div><div class="kv blue" id="kv-fba">—</div><div class="ks" id="ks-fba">—</div></div>
+    <div class="kc neu"><div class="kl">计费重量</div><div class="kv neu" id="kv-bw">—</div><div class="ks" id="ks-bw">—</div></div>
   </div>
-
-  <!-- UK Tier Table -->
   <div id="uk-tier-section" style="display:none;margin-bottom:14px">
     <div class="tier-panel">
-      <div class="tier-panel-hdr"><span>🇬🇧 英国档位对照（自动选最低档）</span><span>Rate Card · Dec 2025</span></div>
+      <div class="tier-panel-hdr"><span>🇬🇧 英国档位对照（自动选最低费用档）</span><span style="font-size:10px;color:var(--ink3)">Rate Card · Dec 2025</span></div>
       <div id="uk-tier-table"></div>
     </div>
   </div>
-
-  <!-- Scenario -->
-  <div class="section-heading" style="margin-bottom:9px">售价敏感度</div>
+  <div class="section-hd">成本拆解</div>
+  <div class="cb-panel">
+    <div class="cb-hdr"><span class="cb-hdr-t">各项成本占售价比例</span><span class="cb-hdr-p" id="cb-plbl">售价 $—</span></div>
+    <div id="cb-body"></div>
+  </div>
+  <div class="section-hd" style="margin-bottom:9px">售价敏感度</div>
   <div class="sc-grid" id="sc-grid"></div>
-
-  <!-- Waterfall -->
-  <div class="wf-panel">
-    <div class="section-heading" style="margin-bottom:12px">成本拆解 · 每售出 1 件</div>
-    <div id="waterfall"></div>
-  </div>
-
-  <!-- Fee detail -->
-  <div class="fee-panel">
-    <div class="fee-hdr">费用明细 & 利润核算</div>
-    <div id="fee-detail"></div>
-  </div>
-
+  <div class="fee-panel"><div class="fee-hdr">费用明细 & 利润核算</div><div id="fee-detail"></div></div>
   <div class="footnote" id="footnote"></div>
-
-  <!-- Page 2 in print: cost parameters -->
-  <div class="print-cost-page" id="print-cost-page">
-    <h2>成本参数明细</h2>
-    <div class="pcp-grid" id="pcp-grid"></div>
-    <div class="pcp-tier" id="pcp-tier"></div>
-  </div>
 </main>
 
-<!-- ARCHIVE PANEL (mobile overlay, same level as sidebar/main) -->
 <div class="archive-panel" id="archive-panel">
-  <div class="arch-toolbar">
-    <h3>📁 产品存档</h3>
-    <button class="btn-save" onclick="saveArchive()">
-      <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M13 13H3a1 1 0 01-1-1V4a1 1 0 011-1h7l3 3v7a1 1 0 01-1 1z"/><path d="M10 13V9H6v4M6 3v3h4"/></svg>
-      保存当前
-    </button>
-  </div>
+  <div class="arch-toolbar"><h3>📁 产品存档</h3><button class="btn-save" id="btn-save-arch" onclick="saveArchive()">💾 保存当前</button></div>
   <div id="arch-list-wrap"></div>
 </div>
 
-<!-- BOTTOM NAV (mobile only) -->
 <nav class="bottom-nav">
-  <button class="bn-tab active" id="bn-input" onclick="switchPanel('input')">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-      <rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/>
-      <rect x="3" y="14" width="7" height="7" rx="1"/>
-      <line x1="14" y1="17" x2="21" y2="17"/><line x1="17.5" y1="13.5" x2="17.5" y2="20.5"/>
-    </svg>
-    参数输入
-  </button>
-  <button class="bn-tab" id="bn-result" onclick="switchPanel('result')">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-      <line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/>
-      <line x1="6" y1="20" x2="6" y2="14"/>
-    </svg>
-    利润结果
-  </button>
-  <button class="bn-tab" id="bn-archive" onclick="switchPanel('archive')">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M3 3h18v4H3z"/><path d="M5 7v13h14V7"/><line x1="9" y1="12" x2="15" y2="12"/>
-    </svg>
-    存档
-  </button>
-  <button class="bn-tab bn-tab-export" onclick="window.print()">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-      <polyline points="6 9 12 15 18 9"/><line x1="12" y1="15" x2="12" y2="3"/>
-      <path d="M5 20h14"/>
-    </svg>
-    导出
-  </button>
+  <button class="bn-tab active" id="bn-input" onclick="switchPanel('input')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><line x1="14" y1="17" x2="21" y2="17"/><line x1="17.5" y1="13.5" x2="17.5" y2="20.5"/></svg>参数输入</button>
+  <button class="bn-tab" id="bn-result" onclick="switchPanel('result')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>利润结果</button>
+  <button class="bn-tab" id="bn-archive" onclick="switchPanel('archive')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h18v4H3z"/><path d="M5 7v13h14V7"/><line x1="9" y1="12" x2="15" y2="12"/></svg>存档</button>
+  <button class="bn-tab bn-tab-export" onclick="doPrint()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/><line x1="12" y1="15" x2="12" y2="3"/><path d="M5 20h14"/></svg>导出</button>
 </nav>
-
 </div><!-- .body -->
-</div><!-- .app -->
+</div><!-- approot -->
+
+<div id="pdf-root"></div>
+
+<div id="install-banner" style="display:none;position:fixed;bottom:16px;left:50%;transform:translateX(-50%);z-index:9999;background:#1A1916;color:#fff;border-radius:12px;padding:12px 16px;gap:12px;align-items:center;box-shadow:0 8px 32px rgba(0,0,0,.25);font-family:'DM Sans',sans-serif;font-size:12px;max-width:340px;width:calc(100% - 32px)">
+  <div style="font-size:22px;flex-shrink:0">📲</div>
+  <div style="flex:1;line-height:1.4"><div style="font-weight:500;margin-bottom:2px">安装到主屏幕</div><div style="color:rgba(255,255,255,.55);font-size:11px">离线可用，像原生 App 一样打开</div></div>
+  <button id="install-btn" style="background:#C8820A;color:#fff;border:none;border-radius:6px;padding:7px 14px;font-size:12px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif">安装</button>
+  <button id="install-dismiss" style="background:transparent;border:none;color:rgba(255,255,255,.4);cursor:pointer;font-size:18px;padding:0 4px;line-height:1">×</button>
+</div>
 
 <script>
-let market='us';
-// ─── helpers ───
-const cmIn=v=>v/2.54, kgLb=v=>v*2.20462;
-function syncN(k,v){const n=document.getElementById('n_'+k);n.value=parseFloat(v).toFixed(prec(k));sync_lbl(k);calc();}
-function syncR(k,v){document.getElementById('r_'+k).value=v;sync_lbl(k);calc();}
-function prec(k){return k==='fx'?2:k==='cogs'||k==='pkg'||k==='qc'||k==='units'?0:['tacos','return','ref','duty'].includes(k)?1:2;}
-function gv(k){return parseFloat(document.getElementById('n_'+k).value)||0;}
-const cur=()=>market==='uk'?'£':'$';
+// ─── Per-market default state ───
+const DEF={
+  us:{price:89.99,ref:15,tacos:12,return:5,storage:0.40,ship:4.0,duty:3.9,fx:7.25,units:100,cogs:150,pkg:5,qc:3,weight:2.0,dim_l:45,dim_w:30,dim_h:12,vat:20,battery:false,haz:false,sipp:false,vat_on:false},
+  uk:{price:69.99,ref:15,tacos:10,return:6,storage:0.35,ship:3.5,duty:6.5,fx:9.10,units:80,cogs:150,pkg:5,qc:3,weight:2.0,dim_l:45,dim_w:30,dim_h:12,vat:20,battery:false,haz:false,sipp:false,vat_on:true},
+};
+const ST={us:{...DEF.us},uk:{...DEF.uk},_img:''};
+let MKT='us';
+const C=()=>MKT==='uk'?'£':'$';
+const PK=['weight','cogs','pkg','qc','ship','duty','fx','price','ref','tacos','return','storage','units','vat'];
+const DK=['dim_l','dim_w','dim_h'];
+const CK=['battery','haz','sipp','vat_on'];
 
-function sync_lbl(k){
-  const v=gv(k),c=cur();
-  const map={weight:`${v.toFixed(2)} kg`,cogs:`¥${v}`,pkg:`¥${v}`,qc:`¥${v}`,
+function gv(k){return parseFloat(document.getElementById('n_'+k)?.value)||0;}
+function prec(k){return k==='fx'?2:k==='cogs'||k==='pkg'||k==='qc'||k==='units'?0:['tacos','return','ref','duty','vat'].includes(k)?1:2;}
+function syncN(k,v){document.getElementById('n_'+k).value=parseFloat(v).toFixed(prec(k));updLbl(k);calc();}
+function syncR(k,v){document.getElementById('r_'+k).value=v;updLbl(k);calc();}
+function updLbl(k){
+  const v=gv(k),c=C();
+  const m={weight:`${v.toFixed(2)} kg`,cogs:`¥${v}`,pkg:`¥${v}`,qc:`¥${v}`,
     ship:`${c}${v.toFixed(2)}`,duty:`${v.toFixed(1)}%`,fx:`${v.toFixed(2)}`,
     price:`${c}${v.toFixed(2)}`,ref:`${v.toFixed(1)}%`,tacos:`${v.toFixed(1)}%`,
-    return:`${v.toFixed(1)}%`,storage:`${c}${v.toFixed(2)}`,units:`${v} 件`};
-  const el=document.getElementById('lv_'+k);
-  if(el&&map[k]!==undefined)el.textContent=map[k];
+    return:`${v.toFixed(1)}%`,storage:`${c}${v.toFixed(2)}`,units:`${v} 件`,vat:`${v.toFixed(1)}%`};
+  const el=document.getElementById('lv_'+k);if(el&&m[k]!==undefined)el.textContent=m[k];
 }
-function syncAllLabels(){['weight','cogs','pkg','qc','ship','duty','fx','price','ref','tacos','return','storage','units'].forEach(k=>sync_lbl(k));}
-
-function handleImg(input){
-  const file=input.files[0];if(!file)return;
-  const r=new FileReader();
-  r.onload=e=>{
-    const img=document.getElementById('img-preview');
-    img.src=e.target.result;img.style.display='block';
-    document.getElementById('img-placeholder').style.display='none';
-    // update print header
-    const ph=document.getElementById('ph-img');
-    ph.innerHTML=`<img src="${e.target.result}" style="width:56px;height:56px;border-radius:6px;object-fit:cover">`;
-  };
-  r.readAsDataURL(file);
+function updAllLbls(){PK.forEach(updLbl);}
+function saveState(){
+  const s={};PK.forEach(k=>s[k]=gv(k));DK.forEach(k=>s[k]=parseFloat(document.getElementById(k)?.value)||1);
+  CK.forEach(k=>s[k]=document.getElementById('chk_'+k)?.checked||false);ST[MKT]=s;
 }
-
-// ─── UK TIERS (Rate Card Dec 15 2025) ───
-const UK_TIERS=[
-  {id:'light_env',name:'Light Envelope',dims:[33,23,2.5],maxKg:.1,unitWt:true,
-   fees:[{g:20,f:1.83},{g:40,f:1.87},{g:60,f:1.89},{g:80,f:2.07},{g:100,f:2.08}]},
-  {id:'std_env',name:'Standard Envelope',dims:[33,23,2.5],maxKg:.46,unitWt:true,
-   fees:[{g:210,f:2.10},{g:460,f:2.16}]},
-  {id:'lg_env',name:'Large Envelope',dims:[33,23,4],maxKg:.96,unitWt:true,
-   fees:[{g:960,f:2.72}]},
-  {id:'xl_env',name:'XL Envelope',dims:[33,23,6],maxKg:.96,unitWt:true,
-   fees:[{g:960,f:2.94}]},
-  {id:'sm_parc',name:'Small Parcel',dims:[35,25,12],maxKg:3.9,dimMaxKg:2.1,unitWt:false,
-   fees:[{g:150,f:2.65},{g:400,f:2.74},{g:900,f:2.78},{g:1400,f:3.05},{g:1900,f:3.35},{g:2400,f:3.65},{g:3900,f:4.25}]},
-  {id:'std_parc',name:'Standard Parcel',dims:[45,34,26],maxKg:30,unitWt:false,
-   fees:[{g:150,f:2.94},{g:400,f:3.22},{g:900,f:3.54},{g:1400,f:3.88},{g:1900,f:4.25},{g:2400,f:4.70},
-         {g:3900,f:5.40},{g:5900,f:6.20},{g:8900,f:7.45},{g:11900,f:8.80},{g:14900,f:10.20},
-         {g:19900,f:11.90},{g:24900,f:13.90},{g:30000,f:16.50}]},
-  {id:'sm_ovz',name:'Small Oversize',dims:[61,46,46],maxKg:15,unitWt:false,
-   fees:[{g:15000,f:14.80}],perKg:.95},
-  {id:'std_ovz',name:'Std Oversize',dims:[120,60,60],maxKg:31.5,unitWt:false,
-   fees:[{g:31500,f:31.00}],perKg:1.05},
-  {id:'sp_ovz',name:'Special Oversize',dims:[999,999,999],maxKg:999,unitWt:true,
-   fees:[{g:999999,f:60.00}],perKg:1.20},
-];
-
-function ukFee(t,g,kg){
-  for(const f of t.fees)if(g<=f.g)return f.f;
-  if(t.perKg)return t.fees[t.fees.length-1].f+Math.max(0,kg-t.fees[t.fees.length-1].g/1000)*t.perKg;
-  return t.fees[t.fees.length-1].f;
+function loadState(m){
+  const s=ST[m];
+  PK.forEach(k=>{const r=document.getElementById('r_'+k),n=document.getElementById('n_'+k);if(r&&n){r.value=s[k];n.value=parseFloat(s[k]).toFixed(prec(k));}});
+  DK.forEach(k=>{const el=document.getElementById(k);if(el)el.value=s[k];});
+  CK.forEach(k=>{const el=document.getElementById('chk_'+k);if(el)el.checked=!!s[k];});
 }
-
-function getUKTier(l,w,h,wKg){
-  const s=[l,w,h].sort((a,b)=>b-a);
-  const dimKg=(s[0]*s[1]*s[2])/5000;
-  for(const t of UK_TIERS){
-    if(s[0]>t.dims[0]||s[1]>t.dims[1]||s[2]>t.dims[2])continue;
-    const bKg=t.unitWt?wKg:Math.max(wKg,dimKg);
-    const bG=Math.round(bKg*1000);
-    if(bKg>t.maxKg)continue;
-    if(t.dimMaxKg&&dimKg>t.dimMaxKg)continue;
-    return{t,bKg,bG,dimKg,fee:ukFee(t,bG,bKg),s};
-  }
-  const bKg=Math.max(wKg,dimKg);
-  return{t:UK_TIERS[UK_TIERS.length-1],bKg,bG:Math.round(bKg*1000),dimKg,fee:60,s};
-}
-
-function renderUKTable(r,wKg){
-  const dimKg=(r.s[0]*r.s[1]*r.s[2])/5000;
-  let html='';
-  UK_TIERS.slice(0,-1).forEach(t=>{
-    const fits=r.s[0]<=t.dims[0]&&r.s[1]<=t.dims[1]&&r.s[2]<=t.dims[2];
-    const bKg=t.unitWt?wKg:Math.max(wKg,dimKg);
-    const wtOk=bKg<=t.maxKg&&(!t.dimMaxKg||dimKg<=t.dimMaxKg);
-    const ok=fits&&wtOk;
-    const isAct=t.id===r.t.id;
-    const fee=ok?ukFee(t,Math.round(bKg*1000),bKg):null;
-    const wtn=t.unitWt?`${(wKg*1000).toFixed(0)}g 实际`:`${(bKg*1000).toFixed(0)}g 计费`;
-    html+=`<div class="tr-row${isAct?' active':''}">
-      <span class="tr-name">${t.name}</span>
-      <span class="tr-dims">${t.dims[0]}×${t.dims[1]}×${t.dims[2]}cm</span>
-      <span class="tr-wt" style="color:${ok?'var(--ink2)':'var(--ink4)'}">${ok?wtn:'—'}</span>
-      <span class="tr-fee">${fee!==null?'£'+fee.toFixed(2):'—'}</span>
-      <span class="tr-tick">${isAct?'<span style="color:var(--green)">✓</span>':ok?'<span style="color:var(--ink3)">○</span>':'<span style="color:var(--ink4)">✕</span>'}</span>
-    </div>`;
-  });
-  document.getElementById('uk-tier-table').innerHTML=html;
-}
-
-// ─── US TIER ───
-function getUSTier(l,w,h,wKg){
-  const s=[l,w,h].sort((a,b)=>b-a);
-  const [d1,d2,d3]=s,li=cmIn(d1),mi=cmIn(d2),si=cmIn(d3);
-  const wLb=kgLb(wKg),girth=2*(mi+si),dimLb=(li*mi*si)/139,bLb=Math.max(wLb,dimLb);
-  let tier,color,meta;
-  if(li<=15&&mi<=12&&si<=0.75&&wLb<=1){tier='Small Standard';color='ok';meta=`${d1}×${d2}×${d3}cm → ${li.toFixed(1)}"×${mi.toFixed(1)}"×${si.toFixed(2)}" ✓  计费 ${bLb.toFixed(3)} lb`;}
-  else if(li<=18&&mi<=14&&si<=8&&wLb<=20){tier='Large Standard';color='ok';meta=`${d1}×${d2}×${d3}cm → ${li.toFixed(1)}"×${mi.toFixed(1)}"×${si.toFixed(2)}"  计费 ${bLb.toFixed(3)} lb`;}
-  else if(li<=60&&(li+girth)<=130&&wLb<=70){tier='Small Bulky';color='warn';meta=`最长边 ${li.toFixed(1)}" 计费重 ${bLb.toFixed(3)} lb`;}
-  else if(li<=96&&(li+girth)<=130&&wLb<=150){tier='Large Bulky';color='warn';meta=`最长边 ${li.toFixed(1)}" 计费重 ${bLb.toFixed(3)} lb`;}
-  else{tier='Extra-large';color='bad';meta='超出所有标准档位';}
-  return{tier,color,meta,bLb,dimLb,wLb};
-}
-
-function getUSFee(r,price){
-  const lb=r.bLb,t=r.tier,cheap=price<10;
-  if(t==='Small Standard')return lb<=6/16?(cheap?2.20:3.06):(cheap?2.29:3.15);
-  if(t==='Large Standard'){
-    if(lb<=12/16)return cheap?2.78:3.64;if(lb<=1)return cheap?3.18:4.04;
-    if(lb<=2)return cheap?3.78:4.64;if(lb<=3)return cheap?4.22:5.08;
-    return(cheap?4.22:5.08)+(lb-3)*0.38;
-  }
-  if(t==='Small Bulky')return lb<=2?9.73:9.73+(lb-2)*0.42;
-  if(t==='Large Bulky')return 19.05+Math.max(0,lb-2)*0.42;
-  return 26.33+Math.max(0,lb-2)*0.83;
-}
-
-// ─── MARKET SWITCH ───
 function setMarket(m,el){
-  market=m;
+  saveState();MKT=m;
   document.querySelectorAll('.mkt').forEach(b=>b.classList.remove('active'));el.classList.add('active');
   const uk=m==='uk';
   document.getElementById('lbl_price').textContent=uk?'售价 (£)':'售价 ($)';
   document.getElementById('lbl_ship').textContent=uk?'头程运费/件 (£)':'头程运费/件 ($)';
   document.getElementById('lbl_storage').textContent=uk?'月仓储分摊/件 (£)':'月仓储分摊/件 ($)';
   document.getElementById('lbl_fx').textContent=uk?'汇率 RMB/GBP':'汇率 RMB/USD';
+  document.getElementById('sec-vat').style.display=uk?'':'none';
   document.getElementById('uk-tier-section').style.display=uk?'block':'none';
-  const fxD=uk?'9.10':'7.25',fxMn=uk?'8.0':'6.5',fxMx=uk?'10.5':'8.0';
-  ['r_fx','n_fx'].forEach(id=>{const el=document.getElementById(id);el.min=fxMn;el.max=fxMx;el.value=fxD;});
-  const pDef=uk?'69.99':'89.99';
-  ['r_price','n_price'].forEach(id=>{const el=document.getElementById(id);el.value=pDef;});
-  syncAllLabels();calc();
+  const rfx=document.getElementById('r_fx'),nfx=document.getElementById('n_fx');
+  rfx.min=uk?'8.0':'6.5';rfx.max=uk?'10.5':'8.0';
+  loadState(m);updAllLbls();calc();
+}
+function handleImg(input){
+  const file=input.files[0];if(!file)return;
+  const r=new FileReader();r.onload=e=>{
+    const img=document.getElementById('img-prev');
+    img.src=e.target.result;img.style.display='block';
+    document.getElementById('img-ph').style.display='none';
+    ST._img=e.target.result;
+  };r.readAsDataURL(file);
 }
 
-// ─── MAIN CALC ───
-function calc(){
-  const lCm=parseFloat(document.getElementById('dim_l').value)||1;
-  const wCm=parseFloat(document.getElementById('dim_w').value)||1;
-  const hCm=parseFloat(document.getElementById('dim_h').value)||1;
-  const wKg=gv('weight'),cogsRmb=gv('cogs'),pkgRmb=gv('pkg'),qcRmb=gv('qc');
-  const ship=gv('ship'),duty_pct=gv('duty'),fx=gv('fx'),storage=gv('storage');
-  const price=gv('price'),ref_pct=gv('ref'),tacos_pct=gv('tacos'),ret_pct=gv('return');
-  const units=Math.max(1,gv('units'));
-  const hasBatt=document.getElementById('chk_battery').checked;
-  const hasHaz=document.getElementById('chk_haz').checked;
-  const hasSipp=document.getElementById('chk_sipp').checked;
-  const c=cur(), uk=market==='uk';
-
-  // ── Tier ──
-  let fba,tName,tColor,tMeta,bwDisplay,dimDisplay,sipp_s=0;
-  if(uk){
-    const r=getUKTier(lCm,wCm,hCm,wKg);
-    fba=r.fee; tName=r.t.name; tColor=r.t.id.includes('ovz')?'warn':'ok';
-    if(r.t.id==='sp_ovz')tColor='bad';
-    tMeta=`${r.s[0]}×${r.s[1]}×${r.s[2]}cm  实际重${(wKg*1000).toFixed(0)}g  体积重${(r.dimKg*1000).toFixed(0)}g  ${r.t.unitWt?'仅按实际重计费':'按max(实际,体积)计费'}`;
-    bwDisplay=r.t.unitWt?`${(wKg*1000).toFixed(0)}g`:`${(r.bKg*1000).toFixed(0)}g`;
-    dimDisplay=`体积重 ${(r.dimKg*1000).toFixed(0)}g`;
-    renderUKTable(r,wKg);
-  }else{
-    const r=getUSTier(lCm,wCm,hCm,wKg);
-    fba=getUSFee(r,price); tName=r.tier; tColor=r.color; tMeta=r.meta;
-    bwDisplay=`${r.bLb.toFixed(3)} lb`; dimDisplay=`体积重 ${r.dimLb.toFixed(3)} lb`;
-    if(!hasSipp){if(r.tier==='Small Bulky')sipp_s=1.51;else if(r.tier==='Large Bulky')sipp_s=4.04;}
+// ─── UK tiers ───
+const UKT=[
+  {id:'light_env',name:'Light Envelope',dims:[33,23,2.5],maxKg:.1,uw:true,fees:[{g:20,f:1.83},{g:40,f:1.87},{g:60,f:1.89},{g:80,f:2.07},{g:100,f:2.08}]},
+  {id:'std_env',name:'Standard Envelope',dims:[33,23,2.5],maxKg:.46,uw:true,fees:[{g:210,f:2.10},{g:460,f:2.16}]},
+  {id:'lg_env',name:'Large Envelope',dims:[33,23,4],maxKg:.96,uw:true,fees:[{g:960,f:2.72}]},
+  {id:'xl_env',name:'XL Envelope',dims:[33,23,6],maxKg:.96,uw:true,fees:[{g:960,f:2.94}]},
+  {id:'sm_parc',name:'Small Parcel',dims:[35,25,12],maxKg:3.9,dmx:2.1,uw:false,fees:[{g:150,f:2.65},{g:400,f:2.74},{g:900,f:2.78},{g:1400,f:3.05},{g:1900,f:3.35},{g:2400,f:3.65},{g:3900,f:4.25}]},
+  {id:'std_parc',name:'Standard Parcel',dims:[45,34,26],maxKg:30,uw:false,fees:[{g:150,f:2.94},{g:400,f:3.22},{g:900,f:3.54},{g:1400,f:3.88},{g:1900,f:4.25},{g:2400,f:4.70},{g:3900,f:5.40},{g:5900,f:6.20},{g:8900,f:7.45},{g:11900,f:8.80},{g:14900,f:10.20},{g:19900,f:11.90},{g:24900,f:13.90},{g:30000,f:16.50}]},
+  {id:'sm_ovz',name:'Small Oversize',dims:[61,46,46],maxKg:15,uw:false,fees:[{g:15000,f:14.80}],pk:.95},
+  {id:'std_ovz',name:'Std Oversize',dims:[120,60,60],maxKg:31.5,uw:false,fees:[{g:31500,f:31.00}],pk:1.05},
+  {id:'sp_ovz',name:'Special Oversize',dims:[999,999,999],maxKg:999,uw:true,fees:[{g:999999,f:60}],pk:1.20},
+];
+function ukF(t,g,kg){for(const f of t.fees)if(g<=f.g)return f.f;if(t.pk)return t.fees[t.fees.length-1].f+Math.max(0,kg-t.fees[t.fees.length-1].g/1000)*t.pk;return t.fees[t.fees.length-1].f;}
+function getUKT(l,w,h,wk){
+  const s=[l,w,h].sort((a,b)=>b-a),dk=(s[0]*s[1]*s[2])/5000;
+  for(const t of UKT){
+    if(s[0]>t.dims[0]||s[1]>t.dims[1]||s[2]>t.dims[2])continue;
+    const bk=t.uw?wk:Math.max(wk,dk),bg=Math.round(bk*1000);
+    if(bk>t.maxKg)continue;if(t.dmx&&dk>t.dmx)continue;
+    return{t,bk,bg,dk,fee:ukF(t,bg,bk),s};
   }
+  const bk=Math.max(wk,(l*w*h)/5000);return{t:UKT[UKT.length-1],bk,bg:Math.round(bk*1000),dk:(l*w*h)/5000,fee:60,s:[l,w,h].sort((a,b)=>b-a)};
+}
+function renderUKTbl(r,wk){
+  let html='';
+  UKT.slice(0,-1).forEach(t=>{
+    const fits=r.s[0]<=t.dims[0]&&r.s[1]<=t.dims[1]&&r.s[2]<=t.dims[2];
+    const bk=t.uw?wk:Math.max(wk,r.dk),ok=fits&&bk<=t.maxKg&&(!t.dmx||r.dk<=t.dmx);
+    const ia=t.id===r.t.id,fee=ok?ukF(t,Math.round(bk*1000),bk):null;
+    const wtn=t.uw?`${(wk*1000).toFixed(0)}g 实际`:`${(bk*1000).toFixed(0)}g 计费`;
+    html+=`<div class="tr-row${ia?' active':''}"><span class="tr-name">${t.name}</span><span class="tr-dims">${t.dims.join('×')}cm</span><span class="tr-wt" style="color:${ok?'var(--ink2)':'var(--ink4)'}">${ok?wtn:'—'}</span><span class="tr-fee">${fee!==null?'£'+fee.toFixed(2):'—'}</span><span class="tr-tick">${ia?'<span style="color:var(--green)">✓</span>':ok?'<span style="color:var(--ink3)">○</span>':'<span style="color:var(--ink4)">✕</span>'}</span></div>`;
+  });
+  document.getElementById('uk-tier-table').innerHTML=html;
+}
 
-  // tier badge
-  const tb=document.getElementById('tier-badge');
-  tb.className=`tier-badge ${tColor}`;
-  document.getElementById('tb-name').className=`tb-name ${tColor}`;document.getElementById('tb-name').textContent=tName;
-  document.getElementById('tb-fee').className=`tb-fee ${tColor}`;document.getElementById('tb-fee').textContent=`${c}${fba.toFixed(2)}`;
-  document.getElementById('tb-meta').textContent=tMeta;
+// ─── US tiers ───
+const ci=v=>v/2.54,kl=v=>v*2.20462;
+function getUST(l,w,h,wk){
+  const s=[l,w,h].sort((a,b)=>b-a);
+  const li=ci(s[0]),mi=ci(s[1]),si=ci(s[2]),wl=kl(wk),gr=2*(mi+si),dl=(li*mi*si)/139,bl=Math.max(wl,dl);
+  let tier,color,meta;
+  if(li<=15&&mi<=12&&si<=0.75&&wl<=1){tier='Small Standard';color='ok';meta=`${s.join('×')}cm → ${li.toFixed(1)}"×${mi.toFixed(1)}"×${si.toFixed(2)}" ✓  计费 ${bl.toFixed(3)} lb`;}
+  else if(li<=18&&mi<=14&&si<=8&&wl<=20){tier='Large Standard';color='ok';meta=`${s.join('×')}cm → ${li.toFixed(1)}"×${mi.toFixed(1)}"×${si.toFixed(2)}"  计费 ${bl.toFixed(3)} lb`;}
+  else if(li<=60&&(li+gr)<=130&&wl<=70){tier='Small Bulky';color='warn';meta=`最长边 ${li.toFixed(1)}" 计费重 ${bl.toFixed(3)} lb`;}
+  else if(li<=96&&(li+gr)<=130&&wl<=150){tier='Large Bulky';color='warn';meta=`最长边 ${li.toFixed(1)}" 计费重 ${bl.toFixed(3)} lb`;}
+  else{tier='Extra-large';color='bad';meta='超出所有标准档位';}
+  return{tier,color,meta,bl,dl,wl};
+}
+function getUSF(r,p){
+  const lb=r.bl,t=r.tier,ch=p<10;
+  if(t==='Small Standard')return lb<=6/16?(ch?2.20:3.06):(ch?2.29:3.15);
+  if(t==='Large Standard'){if(lb<=12/16)return ch?2.78:3.64;if(lb<=1)return ch?3.18:4.04;if(lb<=2)return ch?3.78:4.64;if(lb<=3)return ch?4.22:5.08;return(ch?4.22:5.08)+(lb-3)*0.38;}
+  if(t==='Small Bulky')return lb<=2?9.73:9.73+(lb-2)*0.42;
+  if(t==='Large Bulky')return 19.05+Math.max(0,lb-2)*0.42;
+  return 26.33+Math.max(0,lb-2)*0.83;
+}
 
-  // ── Fees ──
-  const referral=price*ref_pct/100;
-  const ppc=price*tacos_pct/100;
-  const cogs_c=(cogsRmb+pkgRmb+qcRmb)/fx;
-  const duty_c=(cogsRmb/fx)*duty_pct/100;      // duty on FOB cost
-  const return_c=price*ret_pct/100*0.12;
-  const batt=hasBatt?(uk?.10:.11):0;
-  const haz=hasHaz?(uk?.10:.11):0;
-  // Amazon monthly fee ($39.99) amortised, converted
-  const monthly_fee_c=uk?(39.99*gv('fx')/9.10/units):(39.99/units); // approximate
-  const monthly_fee_usd=39.99/units;
+// ─── Snapshot for PDF ───
+let LR={};
 
-  const totalCost=referral+fba+cogs_c+duty_c+ship+ppc+storage+return_c+batt+haz+sipp_s+monthly_fee_c;
-  const net=price-totalCost;
-  const margin=(net/price)*100;
-  const netRmb=net*fx;
+function calc(){
+  const lC=parseFloat(document.getElementById('dim_l').value)||1;
+  const wC=parseFloat(document.getElementById('dim_w').value)||1;
+  const hC=parseFloat(document.getElementById('dim_h').value)||1;
+  const wk=gv('weight'),cr=gv('cogs'),pr=gv('pkg'),qr=gv('qc');
+  const sh=gv('ship'),dp=gv('duty'),fx=gv('fx'),st=gv('storage');
+  const price=gv('price'),rp=gv('ref'),tp=gv('tacos'),rtp=gv('return');
+  const un=Math.max(1,gv('units'));
+  const hb=document.getElementById('chk_battery').checked;
+  const hh=document.getElementById('chk_haz').checked;
+  const hs=document.getElementById('chk_sipp').checked;
+  const hv=document.getElementById('chk_vat').checked;
+  const vp=gv('vat');
+  const uk=MKT==='uk',c=C();
 
-  // KPIs
+  let fba,tN,tC,tM,bwD,dmD,sipp=0;
+  if(uk){
+    const r=getUKT(lC,wC,hC,wk);fba=r.fee;tN=r.t.name;
+    tC=r.t.id.includes('ovz')?'warn':'ok';if(r.t.id==='sp_ovz')tC='bad';
+    tM=`${r.s.join('×')}cm  实际${(wk*1000).toFixed(0)}g  体积${(r.dk*1000).toFixed(0)}g  ${r.t.uw?'仅按实际重':'取max'}`;
+    bwD=r.t.uw?`${(wk*1000).toFixed(0)}g`:`${(r.bk*1000).toFixed(0)}g`;
+    dmD=`体积重 ${(r.dk*1000).toFixed(0)}g`;
+    renderUKTbl(r,wk);
+  }else{
+    const r=getUST(lC,wC,hC,wk);fba=getUSF(r,price);tN=r.tier;tC=r.color;tM=r.meta;
+    bwD=`${r.bl.toFixed(3)} lb`;dmD=`体积重 ${r.dl.toFixed(3)} lb`;
+    if(!hs){if(r.tier==='Small Bulky')sipp=1.51;else if(r.tier==='Large Bulky')sipp=4.04;}
+  }
+  document.getElementById('tier-badge').className=`tier-badge ${tC}`;
+  document.getElementById('tb-name').className=`tb-name ${tC}`;document.getElementById('tb-name').textContent=tN;
+  document.getElementById('tb-fee').className=`tb-fee ${tC}`;document.getElementById('tb-fee').textContent=`${c}${fba.toFixed(2)}`;
+  document.getElementById('tb-meta').textContent=tM;
+
+  const ref=price*rp/100,ppc=price*tp/100;
+  const cgc=(cr+pr+qr)/fx,dc=(cr/fx)*dp/100;
+  const rc=price*rtp/100*0.12;
+  const bt=hb?(uk?.10:.11):0,hz=hh?(uk?.10:.11):0;
+  const mc=(uk?25/fx:39.99/fx)/un;
+  const vatD=(uk&&hv)?price*vp/(100+vp):0;
+  const nr=price-vatD;
+  const tc=ref+fba+cgc+dc+sh+ppc+st+rc+bt+hz+sipp+mc;
+  const net=nr-tc,margin=net/price*100,nr2=net*fx;
+
   const pc=net>=0?(margin>=20?'pos':'warn'):'neg';
-  ['kc-net','kc-margin'].forEach(id=>document.getElementById(id).className='kpi-card '+pc);
+  ['kc-net','kc-margin'].forEach(id=>document.getElementById(id).className='kc '+pc);
   document.getElementById('kv-net').className='kv '+pc;
   document.getElementById('kv-margin').className='kv '+pc;
   document.getElementById('kv-net').textContent=(net>=0?'+':'')+c+Math.abs(net).toFixed(2);
-  document.getElementById('ks-net-rmb').textContent='≈ ¥'+netRmb.toFixed(1)+' / 件';
+  document.getElementById('ks-net').textContent='≈ ¥'+nr2.toFixed(1)+' / 件';
   document.getElementById('kv-margin').textContent=margin.toFixed(2)+'%';
   document.getElementById('kv-fba').textContent=c+fba.toFixed(2);
-  document.getElementById('ks-fba').textContent=tName;
-  document.getElementById('kv-bw').textContent=bwDisplay;
-  document.getElementById('ks-bw').textContent=dimDisplay;
+  document.getElementById('ks-fba').textContent=tN;
+  document.getElementById('kv-bw').textContent=bwD;
+  document.getElementById('ks-bw').textContent=dmD;
 
-  // Alerts
   let alerts='';
-  if(net<0)alerts+=`<div class="alert danger">❌ 亏损 ${c}${Math.abs(net).toFixed(2)}/件（¥${Math.abs(netRmb).toFixed(0)}），请提高售价或降低成本。</div>`;
-  else if(margin<15)alerts+=`<div class="alert warn">⚠️ 净利润率 ${margin.toFixed(1)}% 低于安全线 15%，广告放量后利润空间极薄。</div>`;
+  if(net<0)alerts+=`<div class="alert danger">❌ 亏损 ${c}${Math.abs(net).toFixed(2)}/件（¥${Math.abs(nr2).toFixed(0)}），请提高售价或降低成本。</div>`;
+  else if(margin<15)alerts+=`<div class="alert warn">⚠️ 净利润率 ${margin.toFixed(1)}% 低于安全线 15%。</div>`;
   else if(margin>=25)alerts+=`<div class="alert good">✅ 利润率 ${margin.toFixed(1)}%，健康，具备广告扩张空间。</div>`;
-  if(sipp_s>0)alerts+=`<div class="alert warn">📦 未勾选 SIPP 认证，${tName} 附加包装费 ${c}${sipp_s.toFixed(2)}/件。</div>`;
-  if(tColor==='warn'&&!uk)alerts+=`<div class="alert warn">📐 落入 Bulky 档，FBA 费 ${c}${fba.toFixed(2)}，建议核查包装能否压缩至 Large Standard。</div>`;
-  if(uk){const dKg=(lCm*wCm*hCm)/5000;if(dKg>wKg*1.2&&!tName.includes('Envelope'))alerts+=`<div class="alert info">📦 体积重（${(dKg*1000).toFixed(0)}g）明显大于实际重量，可考虑压缩包装降低计费重。</div>`;}
+  if(sipp>0)alerts+=`<div class="alert warn">📦 未勾选 SIPP 认证，${tN} 附加 ${c}${sipp.toFixed(2)}/件。</div>`;
+  if(uk&&hv)alerts+=`<div class="alert info">🧾 VAT ${vp}% 含税扣除 ${c}${vatD.toFixed(2)}，不计入利润。</div>`;
   document.getElementById('alert-box').innerHTML=alerts;
+
+  // Cost breakdown groups
+  document.getElementById('cb-plbl').textContent=`售价 ${c}${price.toFixed(2)}`;
+  const groups=[
+    {label:'Amazon 平台费',color:'#C0392B',items:[
+      {l:`推荐费 ${rp}%`,a:ref},
+      {l:'FBA 配送费',a:fba},
+      ...(sipp>0?[{l:'SIPP 包装附加',a:sipp}]:[]),
+      ...(bt>0||hz>0?[{l:'锂/危险品附加',a:bt+hz}]:[]),
+    ]},
+    {label:'货品成本链',color:'#E05C30',items:[
+      {l:`产品成本 ¥${cr}`,a:cr/fx},
+      ...(pr>0?[{l:`包装 ¥${pr}`,a:pr/fx}]:[]),
+      ...(qr>0?[{l:`质检 ¥${qr}`,a:qr/fx}]:[]),
+      {l:`关税 ${dp}%`,a:dc},
+      {l:'头程运费',a:sh},
+    ]},
+    {label:'运营费用',color:'#C8820A',items:[
+      {l:`广告 TACoS ${tp}%`,a:ppc},
+      {l:`退货损耗 ${rtp}%`,a:rc},
+      {l:'月仓储分摊',a:st},
+      {l:`月租均摊 ÷${un}件`,a:mc},
+    ]},
+    ...(vatD>0?[{label:'增值税 VAT',color:'#1A5FA0',items:[{l:`VAT ${vp}%`,a:vatD}]}]:[]),
+  ];
+  let cbH='';
+  groups.forEach(g=>{
+    cbH+=`<div class="cb-group"><div class="cb-group-lbl">${g.label}</div>`;
+    g.items.forEach(it=>{
+      const pct=it.a/price*100,bw=Math.min(100,pct);
+      cbH+=`<div class="cb-row"><span class="cb-lbl">${it.l}</span><div class="cb-bar-wrap"><div class="cb-bar" style="width:${bw.toFixed(1)}%;background:${g.color}20;border-left:3px solid ${g.color}"></div></div><span class="cb-pct">${pct.toFixed(1)}%</span><span class="cb-amt cost">-${c}${it.a.toFixed(2)}</span></div>`;
+    });
+    cbH+=`</div>`;
+  });
+  const pp=Math.max(0,margin);
+  cbH+=`<div class="cb-total"><span class="cb-lbl">净利润</span><div class="cb-bar-wrap"><div class="cb-bar" style="width:${pp.toFixed(1)}%;background:${net>=0?'#2E7D5A30':'#C0392B30'};border-left:3px solid ${net>=0?'#2E7D5A':'#C0392B'}"></div></div><span class="cb-pct" style="color:${net>=0?'var(--green)':'var(--red)'}">${margin.toFixed(1)}%</span><span class="cb-amt ${net>=0?'pos':'neg'}">${net>=0?'+':''}${c}${net.toFixed(2)}</span></div>`;
+  document.getElementById('cb-body').innerHTML=cbH;
 
   // Scenario
   const offs=[-0.20,-0.10,0,0.10,0.20];
-  const scHtml=offs.map(off=>{
+  document.getElementById('sc-grid').innerHTML=offs.map(off=>{
     const sp=price*(1+off);
-    const sR=sp*ref_pct/100,sP=sp*tacos_pct/100,sRet=sp*ret_pct/100*0.12;
-    const sFba=uk?fba:getUSFee(getUSTier(lCm,wCm,hCm,wKg),sp);
-    const sT=sR+sFba+cogs_c+duty_c+ship+sP+storage+sRet+batt+haz+sipp_s+monthly_fee_c;
-    const sN=sp-sT,sM=(sN/sp*100);
+    const sv=(uk&&hv)?sp*vp/(100+vp):0;
+    const sRef=sp*rp/100,sPpc=sp*tp/100,sRet=sp*rtp/100*0.12;
+    const sFba=uk?fba:getUSF(getUST(lC,wC,hC,wk),sp);
+    const sT=sRef+sFba+cgc+dc+sh+sPpc+st+sRet+bt+hz+sipp+mc;
+    const sN=sp-sv-sT,sM=sN/sp*100;
     const col=sN>=0?(sM>=20?'var(--green)':'var(--amber)'):'var(--red)';
-    return `<div class="sc-card${off===0?' cur':''}">
-      <div class="sc-tag">${off===0?'当前':(off>0?'+':'')+(off*100).toFixed(0)+'%'}</div>
-      <div class="sc-price">${c}${sp.toFixed(2)}</div>
-      <div class="sc-m" style="color:${col}">${sM.toFixed(1)}%</div>
-      <div class="sc-rmb" style="color:${col}">¥${(sN*fx).toFixed(0)}</div>
-    </div>`;
+    return `<div class="sc-card${off===0?' cur':''}"><div class="sc-tag">${off===0?'当前':(off>0?'+':'')+(off*100).toFixed(0)+'%'}</div><div class="sc-price">${c}${sp.toFixed(2)}</div><div class="sc-m" style="color:${col}">${sM.toFixed(1)}%</div><div class="sc-rmb" style="color:${col}">¥${(sN*fx).toFixed(0)}</div></div>`;
   }).join('');
-  document.getElementById('sc-grid').innerHTML=scHtml;
-
-  // Waterfall
-  const wfItems=[{l:'售价',a:price,c:'#2E7D5A'},
-    {l:`推荐费 ${ref_pct}%`,a:-referral,c:'#C0392B'},
-    {l:'FBA 配送费',a:-fba,c:'#C0392B'}];
-  if(sipp_s>0)wfItems.push({l:'SIPP 包装附加',a:-sipp_s,c:'#C0392B'});
-  if(batt>0)wfItems.push({l:'锂电池附加',a:-batt,c:'#C0392B'});
-  if(haz>0)wfItems.push({l:'危险品附加',a:-haz,c:'#C0392B'});
-  wfItems.push(
-    {l:`产品成本+包装+质检`,a:-cogs_c,c:'#C0392B'},
-    {l:`关税 ${duty_pct}%`,a:-duty_c,c:'#C8820A'},
-    {l:'头程运费',a:-ship,c:'#C8820A'},
-    {l:`广告 TACoS ${tacos_pct}%`,a:-ppc,c:'#C8820A'},
-    {l:'月仓储分摊',a:-storage,c:'#8A8680'},
-    {l:`退货损耗 ${ret_pct}%`,a:-return_c,c:'#8A8680'},
-    {l:`月租均摊 (÷${units}件)`,a:-monthly_fee_c,c:'#8A8680'},
-  );
-  let wfHtml='';
-  wfItems.forEach((it,i)=>{
-    const pct=Math.min(100,Math.abs(it.a)/price*100);
-    if(i===wfItems.length-1)wfHtml+='<hr class="wf-sep">';
-    wfHtml+=`<div class="wf-row"><span class="wf-label">${it.l}</span><div class="wf-track"><div class="wf-fill" style="width:${pct.toFixed(1)}%;background:${it.c}22;border-left:2px solid ${it.c}"></div></div><span class="wf-amt ${it.a>=0?'wf-pos':'wf-neg'}">${it.a>=0?'+':''}${c}${it.a.toFixed(2)}</span></div>`;
-  });
-  wfHtml+=`<hr class="wf-sep"><div class="wf-row wf-total"><span class="wf-label">净利润</span><div class="wf-track"><div class="wf-fill" style="width:${Math.max(0,margin).toFixed(2)}%;background:${net>=0?'#2E7D5A22':'#C0392B22'};border-left:2px solid ${net>=0?'#2E7D5A':'#C0392B'}"></div></div><span class="wf-amt" style="color:${net>=0?'var(--green)':'var(--red)'}">${net>=0?'+':''}${c}${net.toFixed(2)}</span></div>`;
-  document.getElementById('waterfall').innerHTML=wfHtml;
 
   // Fee table
-  const rows=[
-    [`FBA 配送费`,c+fba.toFixed(2),tName,'red'],
-    [`推荐费 ${ref_pct}%`,c+referral.toFixed(2),`${c}${price.toFixed(2)} × ${ref_pct}%`,'red'],
-    [`产品成本`,c+(cogsRmb/fx).toFixed(2),`¥${cogsRmb} ÷ ${fx.toFixed(2)}`,'red'],
-    [`包装材料费`,c+(pkgRmb/fx).toFixed(2),`¥${pkgRmb} ÷ ${fx.toFixed(2)}`,'red'],
-    [`质检费均摊`,c+(qcRmb/fx).toFixed(2),`¥${qcRmb} ÷ ${fx.toFixed(2)}`,'red'],
-    [`关税 ${duty_pct}%`,c+duty_c.toFixed(2),`FOB × ${duty_pct}%`,'red'],
-    [`头程运费`,c+ship.toFixed(2),'','red'],
-    [`广告 TACoS ${tacos_pct}%`,c+ppc.toFixed(2),'','red'],
-    [`月仓储分摊`,c+storage.toFixed(2),'','red'],
-    [`退货损耗 ${ret_pct}%`,c+return_c.toFixed(2),'× 售价 × 12%','red'],
-    [`月租均摊`,c+monthly_fee_c.toFixed(2),`$39.99 ÷ ${units} 件`,'red'],
+  const fr=[
+    [`FBA 配送费`,c+fba.toFixed(2),tN,'red'],
+    [`推荐费 ${rp}%`,c+ref.toFixed(2),`${c}${price.toFixed(2)}×${rp}%`,'red'],
+    [`产品成本`,c+(cr/fx).toFixed(2),`¥${cr}÷${fx.toFixed(2)}`,'red'],
+    ...(pr>0?[[`包装材料费`,c+(pr/fx).toFixed(2),`¥${pr}÷${fx.toFixed(2)}`,'red']]:[]),
+    ...(qr>0?[[`质检费均摊`,c+(qr/fx).toFixed(2),`¥${qr}÷${fx.toFixed(2)}`,'red']]:[]),
+    [`关税 ${dp}%`,c+dc.toFixed(2),'FOB×税率','red'],
+    [`头程运费`,c+sh.toFixed(2),'','red'],
+    [`广告 TACoS ${tp}%`,c+ppc.toFixed(2),'','red'],
+    [`月仓储分摊`,c+st.toFixed(2),'','red'],
+    [`退货损耗 ${rtp}%`,c+rc.toFixed(2),'×售价×12%','red'],
+    [`月租均摊`,c+mc.toFixed(2),`${uk?'£25':'$39.99'}÷${un}件`,'red'],
   ];
-  if(batt>0)rows.push(['锂电池附加',c+batt.toFixed(2),'','red']);
-  if(haz>0)rows.push(['危险品附加',c+haz.toFixed(2),'','red']);
-  if(sipp_s>0)rows.push(['SIPP 包装附加',c+sipp_s.toFixed(2),'未认证','red']);
-
-  let feeHtml=rows.map(([l,v,n,cls])=>`<div class="f-row"><span class="f-lft">${l}${n?`<span class="f-nt">${n}</span>`:''}</span><span class="f-val ${cls}">${v}</span></div>`).join('');
-  feeHtml+=`
-  <div class="f-row" style="border-top:1.5px solid var(--border2)"><span class="f-lft" style="font-weight:500;color:var(--ink)">合计成本</span><span class="f-val red">${c}${totalCost.toFixed(2)}</span></div>
-  <div class="f-row"><span class="f-lft" style="font-weight:500;color:var(--ink)">净利润</span><span class="f-val acc">${net>=0?'+':''}${c}${net.toFixed(2)} <span style="color:var(--ink3);">(${margin.toFixed(2)}%)</span></span></div>
-  <div class="f-row"><span class="f-lft" style="color:var(--ink3)">折合人民币</span><span class="f-val muted">¥${netRmb.toFixed(2)} @ ${fx.toFixed(2)}</span></div>`;
-  document.getElementById('fee-detail').innerHTML=feeHtml;
-
-  // Footnote
-  const dimKg=(lCm*wCm*hCm)/5000;
+  if(bt>0)fr.push(['锂电池附加',c+bt.toFixed(2),'','red']);
+  if(hz>0)fr.push(['危险品附加',c+hz.toFixed(2),'','red']);
+  if(sipp>0)fr.push(['SIPP包装附加',c+sipp.toFixed(2),'未认证','red']);
+  if(vatD>0)fr.push([`VAT ${vp}%`,c+vatD.toFixed(2),'含税扣除','red']);
+  let ftH=fr.map(([l,v,n,cl])=>`<div class="f-row"><span class="f-lft">${l}${n?`<span class="f-nt">${n}</span>`:''}</span><span class="f-val ${cl}">${v}</span></div>`).join('');
+  ftH+=`<div class="f-row" style="border-top:1.5px solid var(--border2)"><span class="f-lft" style="font-weight:500;color:var(--ink)">合计成本</span><span class="f-val red">${c}${tc.toFixed(2)}</span></div>
+  <div class="f-row"><span class="f-lft" style="font-weight:500;color:var(--ink)">净利润</span><span class="f-val acc">${net>=0?'+':''}${c}${net.toFixed(2)} <span style="color:var(--ink3)">(${margin.toFixed(2)}%)</span></span></div>
+  <div class="f-row"><span class="f-lft" style="color:var(--ink3)">折合人民币</span><span class="f-val mut">¥${nr2.toFixed(2)} @ ${fx.toFixed(2)}</span></div>`;
+  document.getElementById('fee-detail').innerHTML=ftH;
   document.getElementById('footnote').textContent=uk
-    ?`英国站费率：Amazon Rate Card Dec 15, 2025。信封类按实际重量计费；包裹类取 max(实际重 ${(wKg*1000).toFixed(0)}g, 体积重 ${(dimKg*1000).toFixed(0)}g)。月租均摊按 Professional Plan £25 ÷ ${units} 件估算。关税率请根据实际 HS Code 核实。`
-    :`美国站费率：Amazon FBA Rate Card Jan 15, 2026。计费重取 max(实际重 ${kgLb(wKg).toFixed(3)} lb, 体积重 ${((lCm/2.54)*(wCm/2.54)*(hCm/2.54)/139).toFixed(3)} lb)。月租按 Professional Plan $39.99 ÷ ${units} 件均摊。关税率请根据实际 HS Code 核实。`;
+    ?`英国站费率：Amazon Rate Card Dec 15, 2025。信封类按实际重量；包裹类取max(实际${(wk*1000).toFixed(0)}g,体积${((lC*wC*hC)/5000*1000).toFixed(0)}g)。月租按£25÷${un}件均摊。`
+    :`美国站费率：Amazon FBA Rate Card Jan 15, 2026。月租按$39.99÷${un}件均摊。`;
 
-  // Update print header
-  document.getElementById('ph-name').textContent=document.getElementById('product-name').value||'产品利润分析';
-  document.getElementById('ph-date').textContent=new Date().toLocaleDateString('zh-CN');
+  LR={MKT,price,net,margin,nr2,fx,c,tN,tC,fba,ref,ppc,cgc,dc,sh,st,rc,mc,bt,hz,sipp,vatD,vp,tc,
+    cr,pr,qr,rp,tp,rtp,dp,un,lC,wC,hC,wk,bwD,dmD,groups,fr,
+    sc:offs.map(off=>{const sp=price*(1+off);const sv=(uk&&hv)?sp*vp/(100+vp):0;const sRef=sp*rp/100,sPpc=sp*tp/100,sRet=sp*rtp/100*0.12;const sFba=uk?fba:getUSF(getUST(lC,wC,hC,wk),sp);const sT=sRef+sFba+cgc+dc+sh+sPpc+st+sRet+bt+hz+sipp+mc;const sN=sp-sv-sT;return{off,sp,sN,sM:sN/sp*100};})};
 }
 
-// ─── Mobile panel switcher ───
-function switchPanel(tab) {
-  const panels = {
-    input:   document.getElementById('panel-input'),
-    result:  document.getElementById('panel-result'),
-    archive: document.getElementById('archive-panel'),
-  };
-  const btns = {
-    input:   document.getElementById('bn-input'),
-    result:  document.getElementById('bn-result'),
-    archive: document.getElementById('bn-archive'),
-  };
-  // hide all
-  panels.input?.classList.add('panel-hidden');
-  panels.result?.classList.add('panel-hidden');
-  panels.archive?.classList.remove('visible');
-  Object.values(btns).forEach(b => b?.classList.remove('active'));
-  // show target
-  if (tab === 'archive') {
-    panels.archive?.classList.add('visible');
-    btns.archive?.classList.add('active');
-    renderArchiveList();
-  } else if (tab === 'result') {
-    panels.result?.classList.remove('panel-hidden');
-    btns.result?.classList.add('active');
-    if (panels.result) panels.result.scrollTop = 0;
-  } else {
-    panels.input?.classList.remove('panel-hidden');
-    btns.input?.classList.add('active');
-  }
-}
-
-// ─── Archive (localStorage) ───
-const ARCH_KEY = 'qoolighten_archive_v1';
-
-function getArchives() {
-  try { return JSON.parse(localStorage.getItem(ARCH_KEY) || '[]'); }
-  catch { return []; }
-}
-function setArchives(arr) {
-  try { localStorage.setItem(ARCH_KEY, JSON.stringify(arr)); } catch(e) { alert('存储空间不足，无法保存'); }
-}
-
-function saveArchive() {
-  const name = document.getElementById('product-name').value || '未命名产品';
-  const imgEl = document.getElementById('img-preview');
-  const imgSrc = imgEl && imgEl.style.display !== 'none' ? imgEl.src : '';
-  // collect all param values
-  const params = {};
-  ['weight','cogs','pkg','qc','ship','duty','fx','price','ref','tacos','return','storage','units',
-   'dim_l','dim_w','dim_h'].forEach(k => {
-    const el = document.getElementById('n_'+k) || document.getElementById(k);
-    if (el) params[k] = el.value;
+// ─── PDF BUILDER ───
+function buildPDF(){
+  const R=LR;if(!R.price)return;
+  const c=R.c,pc=R.net>=0?(R.margin>=20?'pos':'warn'):'neg';
+  const name=document.getElementById('product-name').value||'产品利润分析';
+  const img=document.getElementById('img-prev');
+  const is=img&&img.style.display!=='none'?img.src:'';
+  const mn=R.MKT==='uk'?'英国站 GBP':'美国站 USD';
+  const now=new Date().toLocaleDateString('zh-CN',{year:'numeric',month:'long',day:'numeric'});
+  const hdr=`<div class="pdf-hdr"><div class="pdf-hdr-img">${is?`<img src="${is}" alt="">`:'📦'}</div><div class="pdf-hdr-info"><h1>${name}</h1><p>${mn} · Amazon FBA 2026 · ${now}</p></div></div>`;
+  const kpis=`<div class="pdf-kpis"><div class="pdf-kpi ${pc}"><div class="pdf-kl">净利润/件</div><div class="pdf-kv ${pc}">${R.net>=0?'+':''}${c}${Math.abs(R.net).toFixed(2)}</div><div class="pdf-ks">≈ ¥${R.nr2.toFixed(1)}</div></div><div class="pdf-kpi ${pc}"><div class="pdf-kl">净利润率</div><div class="pdf-kv ${pc}">${R.margin.toFixed(2)}%</div><div class="pdf-ks">目标≥20%</div></div><div class="pdf-kpi blue"><div class="pdf-kl">FBA配送费</div><div class="pdf-kv blue">${c}${R.fba.toFixed(2)}</div><div class="pdf-ks">${R.tN}</div></div><div class="pdf-kpi neu"><div class="pdf-kl">计费重量</div><div class="pdf-kv neu">${R.bwD}</div><div class="pdf-ks">${R.dmD}</div></div></div>`;
+  const sc=`<div class="pdf-shd">售价敏感度</div><div class="pdf-sc-grid">${R.sc.map(s=>{const col=s.sN>=0?(s.sM>=20?'#2E7D5A':'#C8820A'):'#C0392B';return `<div class="pdf-sc${s.off===0?' cur':''}"><div class="pdf-sc-tag">${s.off===0?'当前':(s.off>0?'+':'')+(s.off*100).toFixed(0)+'%'}</div><div class="pdf-sc-price">${c}${s.sp.toFixed(2)}</div><div class="pdf-sc-m" style="color:${col}">${s.sM.toFixed(1)}%</div><div class="pdf-sc-rmb" style="color:${col}">¥${(s.sN*R.fx).toFixed(0)}</div></div>`;}).join('')}</div>`;
+  let cb=`<div class="pdf-shd">成本拆解</div><div class="pdf-cb"><div class="pdf-cb-hdr"><span>项目</span><span>${c}${R.price.toFixed(2)}</span></div>`;
+  R.groups.forEach(g=>{
+    cb+=`<div class="pdf-cb-glbl">${g.label}</div>`;
+    g.items.forEach(it=>{const p=it.a/R.price*100;cb+=`<div class="pdf-cb-row"><span class="pdf-cb-lbl">${it.l}</span><div class="pdf-cb-bw"><div class="pdf-cb-bar" style="width:${Math.min(100,p).toFixed(1)}%;background:${g.color}"></div></div><span class="pdf-cb-pct">${p.toFixed(1)}%</span><span class="pdf-cb-amt" style="color:#C0392B">-${c}${it.a.toFixed(2)}</span></div>`;});
   });
-  params.market = market;
-  params.chk_battery = document.getElementById('chk_battery').checked;
-  params.chk_haz = document.getElementById('chk_haz').checked;
-  params.chk_sipp = document.getElementById('chk_sipp').checked;
-  // capture results
-  const net = document.getElementById('kv-net')?.textContent || '';
-  const margin = document.getElementById('kv-margin')?.textContent || '';
-  const rmb = document.getElementById('ks-net-rmb')?.textContent || '';
-  const tier = document.getElementById('tb-name')?.textContent || '';
-  const fba = document.getElementById('kv-fba')?.textContent || '';
+  const pp2=Math.max(0,R.margin);
+  cb+=`<div class="pdf-cb-total"><span class="pdf-cb-lbl">净利润</span><div class="pdf-cb-bw"><div class="pdf-cb-bar" style="width:${pp2.toFixed(1)}%;background:${R.net>=0?'#2E7D5A':'#C0392B'}"></div></div><span class="pdf-cb-pct" style="color:${R.net>=0?'#2E7D5A':'#C0392B'}">${R.margin.toFixed(1)}%</span><span class="pdf-cb-amt" style="color:${R.net>=0?'#2E7D5A':'#C0392B'}">${R.net>=0?'+':''}${c}${R.net.toFixed(2)}</span></div></div>`;
+  let ft=`<div class="pdf-shd">费用明细</div><div class="pdf-fee"><div class="pdf-fee-hdr">明细</div>`;
+  R.fr.forEach(([l,v,n])=>{ft+=`<div class="pdf-fr"><span class="pdf-fr-l">${l}${n?`<span class="pdf-fr-n">${n}</span>`:''}</span><span class="pdf-fr-v red">${v}</span></div>`;});
+  ft+=`<div class="pdf-fr" style="border-top:1px solid #ddd"><span class="pdf-fr-l" style="font-weight:500">合计成本</span><span class="pdf-fr-v red">${c}${R.tc.toFixed(2)}</span></div><div class="pdf-fr"><span class="pdf-fr-l" style="font-weight:500">净利润</span><span class="pdf-fr-v acc">${R.net>=0?'+':''}${c}${R.net.toFixed(2)} (${R.margin.toFixed(2)}%)</span></div><div class="pdf-fr"><span class="pdf-fr-l" style="color:#8A8680">折合人民币</span><span class="pdf-fr-v mut">¥${R.nr2.toFixed(2)} @ ${R.fx.toFixed(2)}</span></div></div>`;
+  // page 2
+  const ps=[
+    {title:'产品参数',rows:[['产品名称',name],['市场',mn],['尺寸',`${R.lC}×${R.wC}×${R.hC}cm`],['实际重量',`${R.wk.toFixed(2)}kg`],['档位',R.tN],['FBA费',`${c}${R.fba.toFixed(2)}`],['计费重量',R.bwD]]},
+    {title:'成本结构',rows:[['产品成本',`¥${R.cr}`],['包装',`¥${R.pr}`],['质检',`¥${R.qr}`],['头程',`${c}${R.sh.toFixed(2)}`],['关税率',`${R.dp.toFixed(1)}%`],['汇率',`${R.fx.toFixed(2)}`]]},
+    {title:'定价 & 运营',rows:[['售价',`${c}${R.price.toFixed(2)}`],['推荐费率',`${R.rp.toFixed(1)}%`],['广告TACoS',`${R.tp.toFixed(1)}%`],['退货率',`${R.rtp.toFixed(1)}%`],['月仓储',`${c}${R.st.toFixed(2)}`],['月销量',`${R.un}件`]]},
+    {title:'附加费 & VAT',rows:[
+      ['锂电池',document.getElementById('chk_battery').checked?`是 ${c}${R.bt.toFixed(2)}`:'否'],
+      ['危险品',document.getElementById('chk_haz').checked?`是 ${c}${R.hz.toFixed(2)}`:'否'],
+      ['SIPP',document.getElementById('chk_sipp').checked?'已认证':'否'],
+      ...(R.MKT==='uk'?[['VAT',document.getElementById('chk_vat').checked?`${R.vp}% 含税`:'未启用']]:[]),
+    ]},
+  ];
+  const p2g=`<div class="pdf-p2-grid">${ps.map(s=>`<div class="pdf-p2-sec"><div class="pdf-p2-title">${s.title}</div>${s.rows.map(([l,v])=>`<div class="pdf-p2-row"><span class="pdf-p2-l">${l}</span><span class="pdf-p2-v">${v}</span></div>`).join('')}</div>`).join('')}</div>`;
+  const fn=`<div class="pdf-fn">${document.getElementById('footnote').textContent}</div>`;
+  document.getElementById('pdf-root').innerHTML=
+    `<div class="pdf-page">${hdr}${kpis}${sc}${cb}${ft}</div><div class="pdf-page">${hdr}<div style="font-size:11px;font-weight:500;color:#1A1916;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid #ddd;font-family:'Fraunces',Georgia,serif">参数明细</div>${p2g}${fn}</div>`;
+}
+function doPrint(){buildPDF();window.print();}
+window.addEventListener('beforeprint',buildPDF);
 
-  const record = {
-    id: Date.now(),
-    date: new Date().toLocaleDateString('zh-CN'),
-    name, imgSrc, params,
-    result: { net, margin, rmb, tier, fba }
-  };
-  const arr = getArchives();
-  arr.unshift(record);
-  if (arr.length > 30) arr.length = 30; // cap at 30
-  setArchives(arr);
-  renderArchiveList();
-  // flash feedback
-  const btn = document.querySelector('.btn-save');
-  if (btn) { const orig = btn.textContent; btn.textContent = '✓ 已保存'; setTimeout(() => btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M13 13H3a1 1 0 01-1-1V4a1 1 0 011-1h7l3 3v7a1 1 0 01-1 1z"/><path d="M10 13V9H6v4M6 3v3h4"/></svg> 保存当前', 1500); }
+// ─── Panel switcher ───
+function switchPanel(tab){
+  document.getElementById('panel-input')?.classList.add('phide');
+  document.getElementById('panel-result')?.classList.add('phide');
+  document.getElementById('archive-panel')?.classList.remove('visible');
+  ['bn-input','bn-result','bn-archive'].forEach(id=>document.getElementById(id)?.classList.remove('active'));
+  if(tab==='archive'){document.getElementById('archive-panel')?.classList.add('visible');document.getElementById('bn-archive')?.classList.add('active');renderArchList();}
+  else if(tab==='result'){document.getElementById('panel-result')?.classList.remove('phide');document.getElementById('bn-result')?.classList.add('active');document.getElementById('panel-result').scrollTop=0;}
+  else{document.getElementById('panel-input')?.classList.remove('phide');document.getElementById('bn-input')?.classList.add('active');}
 }
 
-function loadArchive(id) {
-  const arr = getArchives();
-  const rec = arr.find(r => r.id === id);
-  if (!rec) return;
-  const p = rec.params;
-  // restore market
-  const mktBtn = document.querySelector(`.mkt[onclick*="${p.market}"]`);
-  if (mktBtn) setMarket(p.market, mktBtn);
-  // restore inputs
-  ['weight','cogs','pkg','qc','ship','duty','fx','price','ref','tacos','return','storage','units'].forEach(k => {
-    const r = document.getElementById('r_'+k), n = document.getElementById('n_'+k);
-    if (r && p[k] !== undefined) { r.value = p[k]; n.value = p[k]; }
-  });
-  ['dim_l','dim_w','dim_h'].forEach(k => {
-    const el = document.getElementById(k);
-    if (el && p[k] !== undefined) el.value = p[k];
-  });
-  document.getElementById('chk_battery').checked = !!p.chk_battery;
-  document.getElementById('chk_haz').checked = !!p.chk_haz;
-  document.getElementById('chk_sipp').checked = !!p.chk_sipp;
-  // restore product name
-  const nameEl = document.getElementById('product-name');
-  if (nameEl) nameEl.value = rec.name;
-  // restore image
-  if (rec.imgSrc) {
-    const img = document.getElementById('img-preview');
-    const ph = document.getElementById('img-placeholder');
-    if (img) { img.src = rec.imgSrc; img.style.display = 'block'; }
-    if (ph) ph.style.display = 'none';
-  }
-  syncAllLabels();
-  calc();
-  switchPanel('result');
+// ─── Archive ───
+const AK='qoolighten_arch_v3';
+function getArch(){try{return JSON.parse(localStorage.getItem(AK)||'[]');}catch{return[];}}
+function setArch(a){try{localStorage.setItem(AK,JSON.stringify(a));}catch{alert('存储空间不足');}}
+function saveArchive(){
+  const name=document.getElementById('product-name').value||'未命名';
+  const img=document.getElementById('img-prev');const is=img&&img.style.display!=='none'?img.src:'';
+  const params={market:MKT};PK.forEach(k=>params[k]=gv(k));DK.forEach(k=>params[k]=parseFloat(document.getElementById(k)?.value)||1);CK.forEach(k=>params[k]=document.getElementById('chk_'+k)?.checked||false);
+  const R=LR;
+  const rec={id:Date.now(),date:new Date().toLocaleDateString('zh-CN'),name,is,params,
+    result:{net:R.net?.toFixed(2)||'—',margin:R.margin?.toFixed(2)||'—',rmb:`¥${R.nr2?.toFixed(0)||'—'}`,tier:R.tN,fba:`${R.c}${R.fba?.toFixed(2)||'—'}`,market:MKT}};
+  const arr=getArch();arr.unshift(rec);if(arr.length>30)arr.length=30;setArch(arr);renderArchList();
+  const b=document.getElementById('btn-save-arch');if(b){b.textContent='✓ 已保存';setTimeout(()=>b.textContent='💾 保存当前',1500);}
 }
-
-function deleteArchive(id, e) {
-  e.stopPropagation();
-  if (!confirm('删除这条存档？')) return;
-  const arr = getArchives().filter(r => r.id !== id);
-  setArchives(arr);
-  renderArchiveList();
+function loadArchive(id){
+  const rec=getArch().find(r=>r.id===id);if(!rec)return;
+  const p=rec.params,m=p.market||'us';
+  const el=document.getElementById('btn-'+m);if(el)setMarket(m,el);
+  PK.forEach(k=>{const r=document.getElementById('r_'+k),n=document.getElementById('n_'+k);if(r&&p[k]!==undefined){r.value=p[k];n.value=parseFloat(p[k]).toFixed(prec(k));}});
+  DK.forEach(k=>{const el=document.getElementById(k);if(el&&p[k])el.value=p[k];});
+  CK.forEach(k=>{const el=document.getElementById('chk_'+k);if(el)el.checked=!!p[k];});
+  document.getElementById('product-name').value=rec.name;
+  if(rec.is){const img=document.getElementById('img-prev');const ph=document.getElementById('img-ph');if(img){img.src=rec.is;img.style.display='block';}if(ph)ph.style.display='none';ST._img=rec.is;}
+  updAllLbls();calc();switchPanel('result');
 }
-
-function renderArchiveList() {
-  const arr = getArchives();
-  const wrap = document.getElementById('arch-list-wrap');
-  if (!wrap) return;
-  if (arr.length === 0) {
-    wrap.innerHTML = '<div class="arch-empty">暂无存档<br>在参数输入页调整好参数后<br>点击右上角「保存当前」</div>';
-    return;
-  }
-  wrap.innerHTML = `<div class="arch-count">${arr.length} 条存档</div>
-  <div class="arch-list">${arr.map(rec => {
-    const mc = rec.result.margin.includes('-') ? '#C0392B' : parseFloat(rec.result.margin) >= 20 ? '#2E7D5A' : '#C8820A';
-    const thumb = rec.imgSrc
-      ? `<div class="arch-thumb"><img src="${rec.imgSrc}" alt=""></div>`
-      : `<div class="arch-thumb">📦</div>`;
-    return `<div class="arch-card" onclick="loadArchive(${rec.id})">
-      ${thumb}
-      <div class="arch-info">
-        <div class="arch-name">${rec.name}</div>
-        <div class="arch-sub">${rec.date} · ${rec.result.tier} · FBA ${rec.result.fba}</div>
-      </div>
-      <div class="arch-metrics">
-        <div class="arch-margin" style="color:${mc}">${rec.result.margin}</div>
-        <div class="arch-rmb">${rec.result.rmb.replace('≈ ','')}</div>
-      </div>
-      <button class="arch-del" onclick="deleteArchive(${rec.id},event)" title="删除">×</button>
-    </div>`;
+function deleteArchive(id,e){e.stopPropagation();if(!confirm('删除这条存档？'))return;setArch(getArch().filter(r=>r.id!==id));renderArchList();}
+function renderArchList(){
+  const arr=getArch(),w=document.getElementById('arch-list-wrap');if(!w)return;
+  if(!arr.length){w.innerHTML='<div class="arch-empty">暂无存档<br>调好参数后点「保存当前」</div>';return;}
+  w.innerHTML=`<div style="font-size:10px;color:var(--ink3);margin-bottom:8px">${arr.length} 条存档</div><div class="arch-list">${arr.map(r=>{
+    const m=parseFloat(r.result.margin)||0,col=m>=20?'var(--green)':m>0?'var(--amber)':'var(--red)';
+    const mk=r.result.market==='uk'?'🇬🇧':'🇺🇸';
+    const th=r.is?`<div class="arch-thumb"><img src="${r.is}" alt=""></div>`:`<div class="arch-thumb">📦</div>`;
+    return `<div class="arch-card" onclick="loadArchive(${r.id})">${th}<div class="arch-info"><div class="arch-name">${mk} ${r.name}</div><div class="arch-sub">${r.date} · ${r.result.tier} · FBA ${r.result.fba}</div></div><div class="arch-metrics"><div class="arch-margin" style="color:${col}">${r.result.margin}%</div><div class="arch-rmb">${r.result.rmb}</div></div><button class="arch-del" onclick="deleteArchive(${r.id},event)">×</button></div>`;
   }).join('')}</div>`;
 }
 
-// ─── Print cost page builder ───
-function buildPrintCostPage() {
-  const c = cur(), fx = gv('fx');
-  const params = [
-    { title:'产品参数', rows:[
-      ['产品名称', document.getElementById('product-name').value || '—'],
-      ['市场', market === 'uk' ? '英国站 GBP' : '美国站 USD'],
-      ['尺寸 L×W×H', `${document.getElementById('dim_l').value}×${document.getElementById('dim_w').value}×${document.getElementById('dim_h').value} cm`],
-      ['实际重量', gv('weight').toFixed(2) + ' kg'],
-      ['档位', document.getElementById('tb-name').textContent],
-      ['FBA 费', document.getElementById('tb-fee').textContent],
-    ]},
-    { title:'成本结构', rows:[
-      ['产品成本', `¥${gv('cogs')}`],
-      ['包装材料费', `¥${gv('pkg')}`],
-      ['质检费均摊', `¥${gv('qc')}`],
-      ['头程运费', `${c}${gv('ship').toFixed(2)}`],
-      ['关税率', `${gv('duty').toFixed(1)}%`],
-      ['汇率', `${fx.toFixed(2)}`],
-    ]},
-    { title:'定价 & 运营', rows:[
-      ['售价', `${c}${gv('price').toFixed(2)}`],
-      ['推荐费率', `${gv('ref').toFixed(1)}%`],
-      ['广告 TACoS', `${gv('tacos').toFixed(1)}%`],
-      ['退货率', `${gv('return').toFixed(1)}%`],
-      ['月仓储分摊', `${c}${gv('storage').toFixed(2)}`],
-      ['月销量 (租金均摊)', `${gv('units')} 件`],
-    ]},
-    { title:'附加费', rows:[
-      ['锂电池附加', document.getElementById('chk_battery').checked ? '是' : '否'],
-      ['危险品附加', document.getElementById('chk_haz').checked ? '是' : '否'],
-      ['SIPP 认证', document.getElementById('chk_sipp').checked ? '是（免 Bulky 附加）' : '否'],
-    ]},
-  ];
-  const grid = document.getElementById('pcp-grid');
-  const tierDiv = document.getElementById('pcp-tier');
-  if (grid) {
-    grid.innerHTML = params.map(sec => `
-      <div class="pcp-section">
-        <div class="pcp-title">${sec.title}</div>
-        ${sec.rows.map(([l,v]) => `<div class="pcp-row"><span class="pcp-label">${l}</span><span class="pcp-val">${v}</span></div>`).join('')}
-      </div>`).join('');
-  }
-  if (tierDiv) {
-    tierDiv.textContent = '档位说明：' + (document.getElementById('tb-meta').textContent || '—');
-  }
-}
+// ─── PWA ───
+if('serviceWorker' in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
+let dp=null;const bn=document.getElementById('install-banner');
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();dp=e;if(bn)bn.style.display='flex';});
+document.getElementById('install-btn')?.addEventListener('click',async()=>{if(!dp)return;dp.prompt();await dp.userChoice;dp=null;if(bn)bn.style.display='none';});
+document.getElementById('install-dismiss')?.addEventListener('click',()=>{if(bn)bn.style.display='none';});
+window.addEventListener('appinstalled',()=>{if(bn)bn.style.display='none';dp=null;});
 
-// Hook print to build cost page first
-window.addEventListener('beforeprint', buildPrintCostPage);
-
-// ─── Auto-switch to results on mobile after calc ───
-let _calcCount = 0;
-const _origCalc = calc;
-
-// init
-syncAllLabels();
-calc();
-
-// On mobile: result panel starts hidden, input shown
-if (window.innerWidth <= 900) {
-  const r = document.getElementById('panel-result');
-  if (r) r.classList.add('panel-hidden');
-}
-
-// Pre-load archive list
-renderArchiveList();
-
-// ─── PWA: Service Worker ───
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('sw.js')
-      .then(r => console.log('[SW] registered', r.scope))
-      .catch(e => console.warn('[SW] failed', e));
-  });
-}
-
-// ─── PWA: Install prompt ───
-let deferredPrompt = null;
-const installBanner = document.getElementById('install-banner');
-const installBtn = document.getElementById('install-btn');
-const installDismiss = document.getElementById('install-dismiss');
-
-window.addEventListener('beforeinstallprompt', e => {
-  e.preventDefault();
-  deferredPrompt = e;
-  if (installBanner) installBanner.style.display = 'flex';
-});
-
-if (installBtn) {
-  installBtn.addEventListener('click', async () => {
-    if (!deferredPrompt) return;
-    deferredPrompt.prompt();
-    const { outcome } = await deferredPrompt.userChoice;
-    deferredPrompt = null;
-    if (installBanner) installBanner.style.display = 'none';
-  });
-}
-
-if (installDismiss) {
-  installDismiss.addEventListener('click', () => {
-    if (installBanner) installBanner.style.display = 'none';
-  });
-}
-
-window.addEventListener('appinstalled', () => {
-  if (installBanner) installBanner.style.display = 'none';
-  deferredPrompt = null;
-});
+// ─── INIT ───
+loadState('us');updAllLbls();calc();
+if(window.innerWidth<=900)document.getElementById('panel-result')?.classList.add('phide');
+renderArchList();
 </script>
-
-<!-- Install Banner -->
-<div id="install-banner" style="display:none;position:fixed;bottom:16px;left:50%;transform:translateX(-50%);z-index:9999;background:#1A1916;color:#fff;border-radius:12px;padding:12px 16px;gap:12px;align-items:center;box-shadow:0 8px 32px rgba(0,0,0,0.25);font-family:'DM Sans',sans-serif;font-size:12px;max-width:340px;width:calc(100% - 32px)">
-  <div style="font-size:22px;flex-shrink:0">📲</div>
-  <div style="flex:1;line-height:1.4">
-    <div style="font-weight:500;margin-bottom:2px">安装到主屏幕</div>
-    <div style="color:rgba(255,255,255,.55);font-size:11px">离线可用，像原生 App 一样打开</div>
-  </div>
-  <button id="install-btn" style="background:#C8820A;color:#fff;border:none;border-radius:6px;padding:7px 14px;font-size:12px;font-weight:500;cursor:pointer;white-space:nowrap;font-family:'DM Sans',sans-serif">安装</button>
-  <button id="install-dismiss" style="background:transparent;border:none;color:rgba(255,255,255,.4);cursor:pointer;font-size:18px;padding:0 2px;line-height:1">×</button>
-</div>
-
 </body>
 </html>
