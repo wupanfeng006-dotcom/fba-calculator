@@ -1,4 +1,4 @@
-const CACHE = 'qoolighten-v3';
+const CACHE = 'qoolighten-v4';
 const ASSETS = ['./index.html', './manifest.json'];
 
 self.addEventListener('install', e => {

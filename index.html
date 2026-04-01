@@ -204,14 +204,12 @@ body{background:var(--cream);color:var(--ink);font-family:var(--sans);font-size:
   .body{display:block}
   .sidebar{display:none!important}
   .main{padding:0;overflow:visible;background:#fff}
-  .btn-export,.mkt-tabs{display:none!important}
-  .alert,.footnote{display:none}
+  .btn-export,.mkt-tabs,.bottom-nav,.alert,.footnote{display:none!important}
   .kpi-grid{grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px;page-break-inside:avoid}
   .kpi-card{box-shadow:none;border:1px solid #ddd;page-break-inside:avoid}
   .kpi-card.pos{border-top:2px solid #2E7D5A}.kpi-card.neg{border-top:2px solid #C0392B}.kpi-card.warn{border-top:2px solid #C8820A}.kpi-card.blue{border-top:2px solid #1A5FA0}
   .wf-panel,.fee-panel,.tier-panel,.sc-grid{page-break-inside:avoid;box-shadow:none}
   .wf-track{background:#eee}
-  /* print header */
   .print-hdr{display:flex!important;align-items:center;gap:14px;margin-bottom:14px;padding-bottom:12px;border-bottom:2px solid #1A1916}
   .print-hdr-img{width:56px;height:56px;border-radius:6px;object-fit:cover;border:1px solid #ddd;flex-shrink:0}
   .print-hdr-img.placeholder{background:#f0ede8;display:flex;align-items:center;justify-content:center;font-size:22px}
@@ -220,10 +218,79 @@ body{background:var(--cream);color:var(--ink);font-family:var(--sans);font-size:
   .sc-grid{grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:12px}
   .sc-card{box-shadow:none;border:1px solid #ddd}
   #uk-tier-section{display:block!important}
+  /* ── Page 2: cost parameters ── */
+  .print-cost-page{
+    display:block!important;
+    page-break-before:always;
+    padding-top:4mm;
+  }
+  .print-cost-page h2{
+    font-family:'Fraunces',Georgia,serif;font-size:14px;font-weight:500;
+    color:#1A1916;margin-bottom:10px;padding-bottom:8px;
+    border-bottom:1.5px solid #1A1916;
+  }
+  .pcp-grid{display:grid;grid-template-columns:1fr 1fr;gap:0}
+  .pcp-section{padding:10px 14px;border:0.5px solid #ddd}
+  .pcp-section:nth-child(odd){border-right:none}
+  .pcp-title{font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:#8A8680;margin-bottom:8px;font-weight:500}
+  .pcp-row{display:flex;justify-content:space-between;padding:3px 0;font-size:10.5px;border-bottom:0.5px solid #f0ede8}
+  .pcp-row:last-child{border-bottom:none}
+  .pcp-label{color:#4A4844}
+  .pcp-val{font-family:'DM Mono',monospace;font-weight:500;color:#1A1916}
+  .pcp-tier{margin-top:10px;padding:8px 14px;background:#f6f3ee;border-radius:4px;font-size:10px}
 }
 @media screen{
   .print-hdr{display:none}
+  .print-cost-page{display:none}
 }
+
+/* ─── ARCHIVE PANEL ─── */
+.archive-panel{
+  position:absolute;inset:0;bottom:56px;
+  background:var(--cream);overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
+  opacity:0;pointer-events:none;transform:translateY(8px);
+  transition:opacity .2s ease, transform .2s ease;
+  padding:16px;
+}
+.archive-panel.visible{opacity:1;pointer-events:auto;transform:none}
+.arch-toolbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.arch-toolbar h3{font-family:var(--serif);font-size:15px;font-weight:500;color:var(--ink)}
+.btn-save{
+  display:flex;align-items:center;gap:6px;padding:8px 16px;
+  background:var(--amber);color:#fff;border:none;border-radius:var(--r);
+  font-size:12px;font-weight:500;cursor:pointer;font-family:var(--sans);
+  transition:background .15s;
+}
+.btn-save:hover{background:#a86808}
+.arch-empty{text-align:center;padding:40px 20px;color:var(--ink3);font-size:12px;line-height:1.8}
+.arch-list{display:flex;flex-direction:column;gap:10px}
+.arch-card{
+  background:#fff;border:1px solid var(--border);border-radius:var(--r2);
+  padding:13px 14px;display:flex;align-items:center;gap:12px;
+  cursor:pointer;transition:border-color .15s;box-shadow:var(--shadow);
+}
+.arch-card:hover{border-color:var(--amber)}
+.arch-thumb{
+  width:44px;height:44px;border-radius:6px;flex-shrink:0;
+  object-fit:cover;background:var(--cream2);
+  display:flex;align-items:center;justify-content:center;font-size:18px;
+}
+.arch-thumb img{width:44px;height:44px;border-radius:6px;object-fit:cover}
+.arch-info{flex:1;min-width:0}
+.arch-name{font-size:13px;font-weight:500;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.arch-sub{font-size:10px;color:var(--ink3);margin-top:2px}
+.arch-metrics{text-align:right;flex-shrink:0}
+.arch-margin{font-family:var(--mono);font-size:15px;font-weight:500}
+.arch-rmb{font-size:10px;font-family:var(--mono);color:var(--ink3);margin-top:1px}
+.arch-del{
+  width:28px;height:28px;border:none;background:transparent;
+  color:var(--ink4);cursor:pointer;border-radius:4px;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  transition:color .15s,background .15s;font-size:15px;
+}
+.arch-del:hover{color:var(--red);background:var(--red-bg)}
+.arch-count{font-size:10px;color:var(--ink3);margin-bottom:8px}
 
 /* ─── MOBILE BOTTOM NAV ─── */
 .bottom-nav{display:none}
@@ -258,6 +325,9 @@ body{background:var(--cream);color:var(--ink);font-family:var(--sans);font-size:
     overflow-y:auto;
     -webkit-overflow-scrolling:touch;
     transition:opacity .2s ease, transform .2s ease;
+  }
+  .archive-panel{
+    bottom:calc(56px + env(safe-area-inset-bottom));
   }
   .sidebar{border-right:none;border-bottom:none}
   .main{padding:16px;background:var(--cream)}
@@ -479,7 +549,26 @@ body{background:var(--cream);color:var(--ink);font-family:var(--sans);font-size:
   </div>
 
   <div class="footnote" id="footnote"></div>
+
+  <!-- Page 2 in print: cost parameters -->
+  <div class="print-cost-page" id="print-cost-page">
+    <h2>成本参数明细</h2>
+    <div class="pcp-grid" id="pcp-grid"></div>
+    <div class="pcp-tier" id="pcp-tier"></div>
+  </div>
 </main>
+
+<!-- ARCHIVE PANEL (mobile overlay, same level as sidebar/main) -->
+<div class="archive-panel" id="archive-panel">
+  <div class="arch-toolbar">
+    <h3>📁 产品存档</h3>
+    <button class="btn-save" onclick="saveArchive()">
+      <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M13 13H3a1 1 0 01-1-1V4a1 1 0 011-1h7l3 3v7a1 1 0 01-1 1z"/><path d="M10 13V9H6v4M6 3v3h4"/></svg>
+      保存当前
+    </button>
+  </div>
+  <div id="arch-list-wrap"></div>
+</div>
 
 <!-- BOTTOM NAV (mobile only) -->
 <nav class="bottom-nav">
@@ -497,6 +586,12 @@ body{background:var(--cream);color:var(--ink);font-family:var(--sans);font-size:
       <line x1="6" y1="20" x2="6" y2="14"/>
     </svg>
     利润结果
+  </button>
+  <button class="bn-tab" id="bn-archive" onclick="switchPanel('archive')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3 3h18v4H3z"/><path d="M5 7v13h14V7"/><line x1="9" y1="12" x2="15" y2="12"/>
+    </svg>
+    存档
   </button>
   <button class="bn-tab bn-tab-export" onclick="window.print()">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
@@ -815,25 +910,207 @@ function calc(){
 
 // ─── Mobile panel switcher ───
 function switchPanel(tab) {
-  const input = document.getElementById('panel-input');
-  const result = document.getElementById('panel-result');
-  const btnIn = document.getElementById('bn-input');
-  const btnRes = document.getElementById('bn-result');
-  if (!input || !result) return;
-  if (tab === 'input') {
-    input.classList.remove('panel-hidden');
-    result.classList.add('panel-hidden');
-    if (btnIn) btnIn.classList.add('active');
-    if (btnRes) btnRes.classList.remove('active');
+  const panels = {
+    input:   document.getElementById('panel-input'),
+    result:  document.getElementById('panel-result'),
+    archive: document.getElementById('archive-panel'),
+  };
+  const btns = {
+    input:   document.getElementById('bn-input'),
+    result:  document.getElementById('bn-result'),
+    archive: document.getElementById('bn-archive'),
+  };
+  // hide all
+  panels.input?.classList.add('panel-hidden');
+  panels.result?.classList.add('panel-hidden');
+  panels.archive?.classList.remove('visible');
+  Object.values(btns).forEach(b => b?.classList.remove('active'));
+  // show target
+  if (tab === 'archive') {
+    panels.archive?.classList.add('visible');
+    btns.archive?.classList.add('active');
+    renderArchiveList();
+  } else if (tab === 'result') {
+    panels.result?.classList.remove('panel-hidden');
+    btns.result?.classList.add('active');
+    if (panels.result) panels.result.scrollTop = 0;
   } else {
-    result.classList.remove('panel-hidden');
-    input.classList.add('panel-hidden');
-    if (btnRes) btnRes.classList.add('active');
-    if (btnIn) btnIn.classList.remove('active');
-    // scroll result to top
-    result.scrollTop = 0;
+    panels.input?.classList.remove('panel-hidden');
+    btns.input?.classList.add('active');
   }
 }
+
+// ─── Archive (localStorage) ───
+const ARCH_KEY = 'qoolighten_archive_v1';
+
+function getArchives() {
+  try { return JSON.parse(localStorage.getItem(ARCH_KEY) || '[]'); }
+  catch { return []; }
+}
+function setArchives(arr) {
+  try { localStorage.setItem(ARCH_KEY, JSON.stringify(arr)); } catch(e) { alert('存储空间不足，无法保存'); }
+}
+
+function saveArchive() {
+  const name = document.getElementById('product-name').value || '未命名产品';
+  const imgEl = document.getElementById('img-preview');
+  const imgSrc = imgEl && imgEl.style.display !== 'none' ? imgEl.src : '';
+  // collect all param values
+  const params = {};
+  ['weight','cogs','pkg','qc','ship','duty','fx','price','ref','tacos','return','storage','units',
+   'dim_l','dim_w','dim_h'].forEach(k => {
+    const el = document.getElementById('n_'+k) || document.getElementById(k);
+    if (el) params[k] = el.value;
+  });
+  params.market = market;
+  params.chk_battery = document.getElementById('chk_battery').checked;
+  params.chk_haz = document.getElementById('chk_haz').checked;
+  params.chk_sipp = document.getElementById('chk_sipp').checked;
+  // capture results
+  const net = document.getElementById('kv-net')?.textContent || '';
+  const margin = document.getElementById('kv-margin')?.textContent || '';
+  const rmb = document.getElementById('ks-net-rmb')?.textContent || '';
+  const tier = document.getElementById('tb-name')?.textContent || '';
+  const fba = document.getElementById('kv-fba')?.textContent || '';
+
+  const record = {
+    id: Date.now(),
+    date: new Date().toLocaleDateString('zh-CN'),
+    name, imgSrc, params,
+    result: { net, margin, rmb, tier, fba }
+  };
+  const arr = getArchives();
+  arr.unshift(record);
+  if (arr.length > 30) arr.length = 30; // cap at 30
+  setArchives(arr);
+  renderArchiveList();
+  // flash feedback
+  const btn = document.querySelector('.btn-save');
+  if (btn) { const orig = btn.textContent; btn.textContent = '✓ 已保存'; setTimeout(() => btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M13 13H3a1 1 0 01-1-1V4a1 1 0 011-1h7l3 3v7a1 1 0 01-1 1z"/><path d="M10 13V9H6v4M6 3v3h4"/></svg> 保存当前', 1500); }
+}
+
+function loadArchive(id) {
+  const arr = getArchives();
+  const rec = arr.find(r => r.id === id);
+  if (!rec) return;
+  const p = rec.params;
+  // restore market
+  const mktBtn = document.querySelector(`.mkt[onclick*="${p.market}"]`);
+  if (mktBtn) setMarket(p.market, mktBtn);
+  // restore inputs
+  ['weight','cogs','pkg','qc','ship','duty','fx','price','ref','tacos','return','storage','units'].forEach(k => {
+    const r = document.getElementById('r_'+k), n = document.getElementById('n_'+k);
+    if (r && p[k] !== undefined) { r.value = p[k]; n.value = p[k]; }
+  });
+  ['dim_l','dim_w','dim_h'].forEach(k => {
+    const el = document.getElementById(k);
+    if (el && p[k] !== undefined) el.value = p[k];
+  });
+  document.getElementById('chk_battery').checked = !!p.chk_battery;
+  document.getElementById('chk_haz').checked = !!p.chk_haz;
+  document.getElementById('chk_sipp').checked = !!p.chk_sipp;
+  // restore product name
+  const nameEl = document.getElementById('product-name');
+  if (nameEl) nameEl.value = rec.name;
+  // restore image
+  if (rec.imgSrc) {
+    const img = document.getElementById('img-preview');
+    const ph = document.getElementById('img-placeholder');
+    if (img) { img.src = rec.imgSrc; img.style.display = 'block'; }
+    if (ph) ph.style.display = 'none';
+  }
+  syncAllLabels();
+  calc();
+  switchPanel('result');
+}
+
+function deleteArchive(id, e) {
+  e.stopPropagation();
+  if (!confirm('删除这条存档？')) return;
+  const arr = getArchives().filter(r => r.id !== id);
+  setArchives(arr);
+  renderArchiveList();
+}
+
+function renderArchiveList() {
+  const arr = getArchives();
+  const wrap = document.getElementById('arch-list-wrap');
+  if (!wrap) return;
+  if (arr.length === 0) {
+    wrap.innerHTML = '<div class="arch-empty">暂无存档<br>在参数输入页调整好参数后<br>点击右上角「保存当前」</div>';
+    return;
+  }
+  wrap.innerHTML = `<div class="arch-count">${arr.length} 条存档</div>
+  <div class="arch-list">${arr.map(rec => {
+    const mc = rec.result.margin.includes('-') ? '#C0392B' : parseFloat(rec.result.margin) >= 20 ? '#2E7D5A' : '#C8820A';
+    const thumb = rec.imgSrc
+      ? `<div class="arch-thumb"><img src="${rec.imgSrc}" alt=""></div>`
+      : `<div class="arch-thumb">📦</div>`;
+    return `<div class="arch-card" onclick="loadArchive(${rec.id})">
+      ${thumb}
+      <div class="arch-info">
+        <div class="arch-name">${rec.name}</div>
+        <div class="arch-sub">${rec.date} · ${rec.result.tier} · FBA ${rec.result.fba}</div>
+      </div>
+      <div class="arch-metrics">
+        <div class="arch-margin" style="color:${mc}">${rec.result.margin}</div>
+        <div class="arch-rmb">${rec.result.rmb.replace('≈ ','')}</div>
+      </div>
+      <button class="arch-del" onclick="deleteArchive(${rec.id},event)" title="删除">×</button>
+    </div>`;
+  }).join('')}</div>`;
+}
+
+// ─── Print cost page builder ───
+function buildPrintCostPage() {
+  const c = cur(), fx = gv('fx');
+  const params = [
+    { title:'产品参数', rows:[
+      ['产品名称', document.getElementById('product-name').value || '—'],
+      ['市场', market === 'uk' ? '英国站 GBP' : '美国站 USD'],
+      ['尺寸 L×W×H', `${document.getElementById('dim_l').value}×${document.getElementById('dim_w').value}×${document.getElementById('dim_h').value} cm`],
+      ['实际重量', gv('weight').toFixed(2) + ' kg'],
+      ['档位', document.getElementById('tb-name').textContent],
+      ['FBA 费', document.getElementById('tb-fee').textContent],
+    ]},
+    { title:'成本结构', rows:[
+      ['产品成本', `¥${gv('cogs')}`],
+      ['包装材料费', `¥${gv('pkg')}`],
+      ['质检费均摊', `¥${gv('qc')}`],
+      ['头程运费', `${c}${gv('ship').toFixed(2)}`],
+      ['关税率', `${gv('duty').toFixed(1)}%`],
+      ['汇率', `${fx.toFixed(2)}`],
+    ]},
+    { title:'定价 & 运营', rows:[
+      ['售价', `${c}${gv('price').toFixed(2)}`],
+      ['推荐费率', `${gv('ref').toFixed(1)}%`],
+      ['广告 TACoS', `${gv('tacos').toFixed(1)}%`],
+      ['退货率', `${gv('return').toFixed(1)}%`],
+      ['月仓储分摊', `${c}${gv('storage').toFixed(2)}`],
+      ['月销量 (租金均摊)', `${gv('units')} 件`],
+    ]},
+    { title:'附加费', rows:[
+      ['锂电池附加', document.getElementById('chk_battery').checked ? '是' : '否'],
+      ['危险品附加', document.getElementById('chk_haz').checked ? '是' : '否'],
+      ['SIPP 认证', document.getElementById('chk_sipp').checked ? '是（免 Bulky 附加）' : '否'],
+    ]},
+  ];
+  const grid = document.getElementById('pcp-grid');
+  const tierDiv = document.getElementById('pcp-tier');
+  if (grid) {
+    grid.innerHTML = params.map(sec => `
+      <div class="pcp-section">
+        <div class="pcp-title">${sec.title}</div>
+        ${sec.rows.map(([l,v]) => `<div class="pcp-row"><span class="pcp-label">${l}</span><span class="pcp-val">${v}</span></div>`).join('')}
+      </div>`).join('');
+  }
+  if (tierDiv) {
+    tierDiv.textContent = '档位说明：' + (document.getElementById('tb-meta').textContent || '—');
+  }
+}
+
+// Hook print to build cost page first
+window.addEventListener('beforeprint', buildPrintCostPage);
 
 // ─── Auto-switch to results on mobile after calc ───
 let _calcCount = 0;
@@ -848,6 +1125,9 @@ if (window.innerWidth <= 900) {
   const r = document.getElementById('panel-result');
   if (r) r.classList.add('panel-hidden');
 }
+
+// Pre-load archive list
+renderArchiveList();
 
 // ─── PWA: Service Worker ───
 if ('serviceWorker' in navigator) {
