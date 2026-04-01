@@ -225,12 +225,87 @@ body{background:var(--cream);color:var(--ink);font-family:var(--sans);font-size:
   .print-hdr{display:none}
 }
 
-/* responsive */
+/* ─── MOBILE BOTTOM NAV ─── */
+.bottom-nav{display:none}
+
+/* ─── RESPONSIVE ─── */
 @media(max-width:900px){
-  .body{grid-template-columns:1fr}
-  .sidebar{border-right:none;border-bottom:1px solid var(--border);max-height:none}
-  .kpi-grid{grid-template-columns:1fr 1fr}
-  .sc-grid{grid-template-columns:repeat(3,1fr)}
+  /* safe area: topbar clears notch / Dynamic Island */
+  .topbar{
+    padding-top:env(safe-area-inset-top);
+    height:calc(52px + env(safe-area-inset-top));
+    padding-left:max(16px, env(safe-area-inset-left));
+    padding-right:max(16px, env(safe-area-inset-right));
+    gap:10px;
+  }
+  /* hide desktop topbar extras, show only logo + market */
+  .topbar-divider,.topbar-title,.topbar-spacer,.btn-export{display:none}
+  .mkt-tabs{margin-left:auto}
+  .mkt{font-size:11px;padding:5px 10px}
+
+  /* body becomes single full-height column */
+  .body{
+    display:block;
+    height:calc(100vh - 52px - env(safe-area-inset-top));
+    position:relative;
+    overflow:hidden;
+  }
+
+  /* sidebar and main become full-size panels */
+  .sidebar,.main{
+    position:absolute;inset:0;
+    bottom:56px; /* space for bottom nav */
+    overflow-y:auto;
+    -webkit-overflow-scrolling:touch;
+    transition:opacity .2s ease, transform .2s ease;
+  }
+  .sidebar{border-right:none;border-bottom:none}
+  .main{padding:16px;background:var(--cream)}
+
+  /* panel switching via JS class */
+  .sidebar.panel-hidden{opacity:0;pointer-events:none;transform:translateX(-12px)}
+  .main.panel-hidden{opacity:0;pointer-events:none;transform:translateX(12px)}
+
+  /* bottom nav bar */
+  .bottom-nav{
+    display:flex;position:absolute;bottom:0;left:0;right:0;
+    height:calc(56px + env(safe-area-inset-bottom));
+    padding-bottom:env(safe-area-inset-bottom);
+    background:#fff;border-top:1px solid var(--border);
+    z-index:50;
+  }
+  .bn-tab{
+    flex:1;display:flex;flex-direction:column;align-items:center;
+    justify-content:center;gap:3px;border:none;background:transparent;
+    font-family:var(--sans);font-size:10px;color:var(--ink3);
+    cursor:pointer;transition:color .15s;padding-top:4px;
+  }
+  .bn-tab.active{color:var(--amber)}
+  .bn-tab svg{width:20px;height:20px;flex-shrink:0}
+  .bn-tab-export{border-left:1px solid var(--border)}
+
+  /* tighter mobile layouts */
+  .kpi-grid{grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+  .sc-grid{grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:12px}
+  .kv{font-size:17px}
+
+  /* bigger touch targets for sliders */
+  .ctrl-body input[type=range]{height:4px}
+  .ctrl-body input[type=range]::-webkit-slider-thumb{width:20px;height:20px}
+  .ctrl{margin-bottom:14px}
+  .ni{width:72px;font-size:12px;padding:5px 7px}
+
+  /* dim inputs larger */
+  .di{font-size:14px;padding:8px 6px}
+  .dim-item label{font-size:11px}
+
+  /* waterfall label shorter on mobile */
+  .wf-label{min-width:130px;font-size:10px}
+  .wf-amt{font-size:10px;min-width:52px}
+
+  /* product header more compact */
+  .product-hdr{padding:12px 14px}
+  .product-name-input{font-size:14px}
 }
 </style>
 </head>
@@ -256,7 +331,7 @@ body{background:var(--cream);color:var(--ink);font-family:var(--sans);font-size:
 
 <div class="body">
 <!-- SIDEBAR -->
-<aside class="sidebar">
+<aside class="sidebar" id="panel-input">
 
   <!-- Product Header -->
   <div class="product-hdr">
@@ -357,7 +432,7 @@ body{background:var(--cream);color:var(--ink);font-family:var(--sans);font-size:
 </aside>
 
 <!-- MAIN -->
-<main class="main">
+<main class="main" id="panel-result">
 
   <!-- PRINT HEADER (only visible in print) -->
   <div class="print-hdr" id="print-hdr">
@@ -405,6 +480,33 @@ body{background:var(--cream);color:var(--ink);font-family:var(--sans);font-size:
 
   <div class="footnote" id="footnote"></div>
 </main>
+
+<!-- BOTTOM NAV (mobile only) -->
+<nav class="bottom-nav">
+  <button class="bn-tab active" id="bn-input" onclick="switchPanel('input')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/>
+      <rect x="3" y="14" width="7" height="7" rx="1"/>
+      <line x1="14" y1="17" x2="21" y2="17"/><line x1="17.5" y1="13.5" x2="17.5" y2="20.5"/>
+    </svg>
+    参数输入
+  </button>
+  <button class="bn-tab" id="bn-result" onclick="switchPanel('result')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/>
+      <line x1="6" y1="20" x2="6" y2="14"/>
+    </svg>
+    利润结果
+  </button>
+  <button class="bn-tab bn-tab-export" onclick="window.print()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="6 9 12 15 18 9"/><line x1="12" y1="15" x2="12" y2="3"/>
+      <path d="M5 20h14"/>
+    </svg>
+    导出
+  </button>
+</nav>
+
 </div><!-- .body -->
 </div><!-- .app -->
 
@@ -711,9 +813,41 @@ function calc(){
   document.getElementById('ph-date').textContent=new Date().toLocaleDateString('zh-CN');
 }
 
+// ─── Mobile panel switcher ───
+function switchPanel(tab) {
+  const input = document.getElementById('panel-input');
+  const result = document.getElementById('panel-result');
+  const btnIn = document.getElementById('bn-input');
+  const btnRes = document.getElementById('bn-result');
+  if (!input || !result) return;
+  if (tab === 'input') {
+    input.classList.remove('panel-hidden');
+    result.classList.add('panel-hidden');
+    if (btnIn) btnIn.classList.add('active');
+    if (btnRes) btnRes.classList.remove('active');
+  } else {
+    result.classList.remove('panel-hidden');
+    input.classList.add('panel-hidden');
+    if (btnRes) btnRes.classList.add('active');
+    if (btnIn) btnIn.classList.remove('active');
+    // scroll result to top
+    result.scrollTop = 0;
+  }
+}
+
+// ─── Auto-switch to results on mobile after calc ───
+let _calcCount = 0;
+const _origCalc = calc;
+
 // init
 syncAllLabels();
 calc();
+
+// On mobile: result panel starts hidden, input shown
+if (window.innerWidth <= 900) {
+  const r = document.getElementById('panel-result');
+  if (r) r.classList.add('panel-hidden');
+}
 
 // ─── PWA: Service Worker ───
 if ('serviceWorker' in navigator) {
