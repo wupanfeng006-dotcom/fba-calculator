@@ -150,6 +150,8 @@ body{background:var(--cream);color:var(--ink);font-family:var(--sans);font-size:
 .arch-toolbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
 .arch-toolbar h3{font-family:var(--serif);font-size:15px;font-weight:500}
 .btn-save{display:flex;align-items:center;gap:6px;padding:8px 14px;background:var(--amber);color:#fff;border:none;border-radius:var(--r);font-size:12px;font-weight:500;cursor:pointer;font-family:var(--sans)}
+.btn-new{padding:8px 13px;background:var(--cream2);color:var(--ink2);border:1px solid var(--border2);border-radius:var(--r);font-size:12px;font-weight:500;cursor:pointer;font-family:var(--sans);transition:background .15s}
+.btn-new:hover{background:var(--cream3)}
 .arch-empty{text-align:center;padding:40px 20px;color:var(--ink3);font-size:12px;line-height:1.8}
 .arch-list{display:flex;flex-direction:column;gap:9px}
 .arch-card{background:#fff;border:1px solid var(--border);border-radius:var(--r2);padding:12px 13px;display:flex;align-items:center;gap:11px;cursor:pointer;box-shadow:var(--shadow);transition:border-color .15s}
@@ -353,7 +355,14 @@ body{background:var(--cream);color:var(--ink);font-family:var(--sans);font-size:
 </main>
 
 <div class="archive-panel" id="archive-panel">
-  <div class="arch-toolbar"><h3>📁 产品存档</h3><button class="btn-save" id="btn-save-arch" onclick="saveArchive()">💾 保存当前</button></div>
+  <div class="arch-toolbar">
+    <h3>📁 产品存档</h3>
+    <div style="display:flex;gap:7px">
+      <button class="btn-save" id="btn-save-arch" onclick="saveArchive()">💾 保存当前</button>
+      <button class="btn-new" onclick="newProduct()">＋ 新产品</button>
+    </div>
+  </div>
+  <div id="arch-toast" style="display:none"></div>
   <div id="arch-list-wrap"></div>
 </div>
 
@@ -697,6 +706,25 @@ function switchPanel(tab){
 const AK='qoolighten_arch_v3';
 function getArch(){try{return JSON.parse(localStorage.getItem(AK)||'[]');}catch{return[];}}
 function setArch(a){try{localStorage.setItem(AK,JSON.stringify(a));}catch{alert('存储空间不足');}}
+function newProduct(){
+  // reset all inputs to defaults for current market
+  const d=DEF[MKT];
+  PK.forEach(k=>{const r=document.getElementById('r_'+k),n=document.getElementById('n_'+k);if(r&&n){r.value=d[k];n.value=parseFloat(d[k]).toFixed(prec(k));}});
+  DK.forEach(k=>{const el=document.getElementById(k);if(el)el.value=d[k];});
+  CK.forEach(k=>{const el=document.getElementById('chk_'+k);if(el)el.checked=!!d[k];});
+  // clear product name + image
+  const pn=document.getElementById('product-name');if(pn)pn.value='';
+  const img=document.getElementById('img-prev');if(img){img.src='';img.style.display='none';}
+  const ph=document.getElementById('img-ph');if(ph)ph.style.display='';
+  ST._img='';
+  // hide toast
+  const t=document.getElementById('arch-toast');if(t)t.style.display='none';
+  // sync labels and recalc
+  updAllLbls();calc();
+  // switch to input panel
+  switchPanel('input');
+}
+
 function saveArchive(){
   const name=document.getElementById('product-name').value||'未命名';
   const img=document.getElementById('img-prev');const is=img&&img.style.display!=='none'?img.src:'';
@@ -705,7 +733,14 @@ function saveArchive(){
   const rec={id:Date.now(),date:new Date().toLocaleDateString('zh-CN'),name,is,params,
     result:{net:R.net?.toFixed(2)||'—',margin:R.margin?.toFixed(2)||'—',rmb:`¥${R.nr2?.toFixed(0)||'—'}`,tier:R.tN,fba:`${R.c}${R.fba?.toFixed(2)||'—'}`,market:MKT}};
   const arr=getArch();arr.unshift(rec);if(arr.length>30)arr.length=30;setArch(arr);renderArchList();
-  const b=document.getElementById('btn-save-arch');if(b){b.textContent='✓ 已保存';setTimeout(()=>b.textContent='💾 保存当前',1500);}
+  const b=document.getElementById('btn-save-arch');if(b){b.textContent='✓ 已保存';setTimeout(()=>b.textContent='💾 保存当前',2000);}
+  // show toast
+  const t=document.getElementById('arch-toast');
+  if(t){
+    t.style.display='flex';
+    t.style.cssText='display:flex;align-items:center;gap:10px;margin-bottom:12px;padding:10px 13px;background:#E8F5EE;border:1px solid #90CCA8;border-radius:8px;font-size:11px;color:#1A5A3A';
+    t.innerHTML='<span style="font-size:16px">✅</span><span style="flex:1">已保存！点「＋ 新产品」清空参数，开始测算下一款。</span><button onclick="newProduct()" style="background:#2E7D5A;color:#fff;border:none;border-radius:5px;padding:5px 12px;font-size:11px;cursor:pointer;font-family:var(--sans);font-weight:500;white-space:nowrap">＋ 新产品</button>';
+  }
 }
 function loadArchive(id){
   const rec=getArch().find(r=>r.id===id);if(!rec)return;
