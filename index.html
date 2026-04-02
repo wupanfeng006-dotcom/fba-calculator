@@ -290,7 +290,7 @@ body{background:var(--cream);color:var(--ink);font-family:var(--sans);font-size:
     </div>
     <div class="ctrl">
       <div class="ctrl-hdr"><span class="ctrl-name">实际重量 (kg)</span><span class="ctrl-val" id="lv_weight">2.00 kg</span></div>
-      <div class="ctrl-body"><input type="range" id="r_weight" min="0.01" max="30" step="0.01" value="2.0" oninput="syncN('weight',this.value)"><input class="ni" type="number" id="n_weight" value="2.00" min="0.01" max="30" step="0.01" oninput="syncR('weight',this.value)"></div>
+      <div class="ctrl-body"><input type="range" id="r_weight" min="0.1" max="5" step="0.01" value="2.0" oninput="syncN('weight',this.value)"><input class="ni" type="number" id="n_weight" value="2.00" min="0.1" max="5" step="0.01" oninput="syncR('weight',this.value)"></div>
     </div>
     <div id="tier-badge" class="tier-badge ok">
       <div class="tb-row"><span class="tb-name ok" id="tb-name">—</span><span class="tb-fee ok" id="tb-fee">—</span></div>
@@ -300,11 +300,11 @@ body{background:var(--cream);color:var(--ink);font-family:var(--sans);font-size:
   <div class="sec">
     <div class="sec-lbl">🏭 成本结构</div>
     <div class="ctrl"><div class="ctrl-hdr"><span class="ctrl-name">产品成本 (¥)</span><span class="ctrl-val" id="lv_cogs">¥150</span></div><div class="ctrl-body"><input type="range" id="r_cogs" min="5" max="250" step="1" value="150" oninput="syncN('cogs',this.value)"><input class="ni" type="number" id="n_cogs" value="150" min="5" max="250" step="1" oninput="syncR('cogs',this.value)"></div></div>
-    <div class="ctrl"><div class="ctrl-hdr"><span class="ctrl-name">包装材料费/件 (¥)</span><span class="ctrl-val" id="lv_pkg">¥5</span></div><div class="ctrl-body"><input type="range" id="r_pkg" min="0" max="50" step="0.5" value="5" oninput="syncN('pkg',this.value)"><input class="ni" type="number" id="n_pkg" value="5" min="0" max="50" step="0.5" oninput="syncR('pkg',this.value)"></div></div>
-    <div class="ctrl"><div class="ctrl-hdr"><span class="ctrl-name">质检费均摊/件 (¥)</span><span class="ctrl-val" id="lv_qc">¥3</span></div><div class="ctrl-body"><input type="range" id="r_qc" min="0" max="30" step="0.5" value="3" oninput="syncN('qc',this.value)"><input class="ni" type="number" id="n_qc" value="3" min="0" max="30" step="0.5" oninput="syncR('qc',this.value)"></div></div>
+    <div class="ctrl"><div class="ctrl-hdr"><span class="ctrl-name">包装材料费/件 (¥)</span><span class="ctrl-val" id="lv_pkg">¥5</span></div><div class="ctrl-body"><input type="range" id="r_pkg" min="0" max="15" step="0.5" value="5" oninput="syncN('pkg',this.value)"><input class="ni" type="number" id="n_pkg" value="5" min="0" max="15" step="0.5" oninput="syncR('pkg',this.value)"></div></div>
+    <div class="ctrl"><div class="ctrl-hdr"><span class="ctrl-name">质检费均摊/件 (¥)</span><span class="ctrl-val" id="lv_qc">¥3</span></div><div class="ctrl-body"><input type="range" id="r_qc" min="0" max="5" step="0.1" value="3" oninput="syncN('qc',this.value)"><input class="ni" type="number" id="n_qc" value="3" min="0" max="5" step="0.1" oninput="syncR('qc',this.value)"></div></div>
     <div class="ctrl"><div class="ctrl-hdr"><span class="ctrl-name" id="lbl_ship">头程运费/件 ($)</span><span class="ctrl-val" id="lv_ship">$4.00</span></div><div class="ctrl-body"><input type="range" id="r_ship" min="0.5" max="15" step="0.5" value="4" oninput="syncN('ship',this.value)"><input class="ni" type="number" id="n_ship" value="4.00" min="0.5" max="15" step="0.1" oninput="syncR('ship',this.value)"></div></div>
     <div class="ctrl"><div class="ctrl-hdr"><span class="ctrl-name">关税率 (%)</span><span class="ctrl-val" id="lv_duty">3.9%</span></div><div class="ctrl-body"><input type="range" id="r_duty" min="0" max="30" step="0.1" value="3.9" oninput="syncN('duty',this.value)"><input class="ni" type="number" id="n_duty" value="3.9" min="0" max="30" step="0.1" oninput="syncR('duty',this.value)"></div></div>
-    <div class="ctrl"><div class="ctrl-hdr"><span class="ctrl-name" id="lbl_fx">汇率 RMB/USD</span><span class="ctrl-val" id="lv_fx">7.25</span></div><div class="ctrl-body"><input type="range" id="r_fx" min="6.5" max="10.5" step="0.01" value="7.25" oninput="syncN('fx',this.value)"><input class="ni" type="number" id="n_fx" value="7.25" min="6.5" max="10.5" step="0.01" oninput="syncR('fx',this.value)"></div></div>
+    <div class="ctrl"><div class="ctrl-hdr"><span class="ctrl-name" id="lbl_fx">汇率 RMB/USD</span><span class="ctrl-val" id="lv_fx">7.25</span></div><div class="ctrl-body"><input type="range" id="r_fx" min="6.0" max="8.5" step="0.01" value="7.25" oninput="syncN('fx',this.value)"><input class="ni" type="number" id="n_fx" value="7.25" min="6.0" max="8.5" step="0.01" oninput="syncR('fx',this.value)"></div></div>
   </div>
   <div class="sec">
     <div class="sec-lbl">💰 定价 & 运营</div>
@@ -431,7 +431,7 @@ function setMarket(m,el){
   document.getElementById('sec-vat').style.display=uk?'':'none';
   document.getElementById('uk-tier-section').style.display=uk?'block':'none';
   const rfx=document.getElementById('r_fx'),nfx=document.getElementById('n_fx');
-  rfx.min=uk?'8.0':'6.5';rfx.max=uk?'10.5':'8.0';
+  rfx.min=uk?'7.0':'6.0';rfx.max=uk?'10.5':'8.5';
   loadState(m);updAllLbls();calc();
 }
 function compressImg(dataUrl, size, quality, cb){
