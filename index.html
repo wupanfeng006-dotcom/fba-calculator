@@ -434,13 +434,30 @@ function setMarket(m,el){
   rfx.min=uk?'8.0':'6.5';rfx.max=uk?'10.5':'8.0';
   loadState(m);updAllLbls();calc();
 }
+function compressImg(dataUrl, size, quality, cb){
+  const im=new Image();
+  im.onload=()=>{
+    const c=document.createElement('canvas');c.width=size;c.height=size;
+    const ctx=c.getContext('2d');
+    // draw centered square crop
+    const s=Math.min(im.width,im.height);
+    const ox=(im.width-s)/2,oy=(im.height-s)/2;
+    ctx.drawImage(im,ox,oy,s,s,0,0,size,size);
+    cb(c.toDataURL('image/jpeg',quality));
+  };im.src=dataUrl;
+}
 function handleImg(input){
   const file=input.files[0];if(!file)return;
   const r=new FileReader();r.onload=e=>{
+    const full=e.target.result;
+    // Show full-res in UI
     const img=document.getElementById('img-prev');
-    img.src=e.target.result;img.style.display='block';
+    img.src=full;img.style.display='block';
     document.getElementById('img-ph').style.display='none';
-    ST._img=e.target.result;
+    // Store full-res for PDF, compressed for archive
+    ST._img=full;
+    // Also precompute thumbnail for archive storage
+    compressImg(full,80,.65,thumb=>{ ST._thumb=thumb; });
   };r.readAsDataURL(file);
 }
 
@@ -705,7 +722,21 @@ function switchPanel(tab){
 // ─── Archive ───
 const AK='qoolighten_arch_v3';
 function getArch(){try{return JSON.parse(localStorage.getItem(AK)||'[]');}catch{return[];}}
-function setArch(a){try{localStorage.setItem(AK,JSON.stringify(a));}catch{alert('存储空间不足');}}
+function setArch(a){
+  // Try to save; if quota exceeded, strip images from oldest records and retry
+  const tryStore=(arr)=>{
+    try{localStorage.setItem(AK,JSON.stringify(arr));return true;}catch(e){return false;}
+  };
+  if(tryStore(a))return;
+  // Strip thumbnails from older records to free space
+  const stripped=a.map((r,i)=>i===0?r:{...r,is:''});
+  if(tryStore(stripped))return;
+  // Still failing: remove oldest half
+  const half=stripped.slice(0,Math.ceil(stripped.length/2));
+  if(tryStore(half))return;
+  // Last resort: just save the newest record alone
+  tryStore([a[0]].map(r=>({...r,is:''})));
+}
 function newProduct(){
   // reset all inputs to defaults for current market
   const d=DEF[MKT];
@@ -716,7 +747,7 @@ function newProduct(){
   const pn=document.getElementById('product-name');if(pn)pn.value='';
   const img=document.getElementById('img-prev');if(img){img.src='';img.style.display='none';}
   const ph=document.getElementById('img-ph');if(ph)ph.style.display='';
-  ST._img='';
+  ST._img='';ST._thumb='';
   // hide toast
   const t=document.getElementById('arch-toast');if(t)t.style.display='none';
   // sync labels and recalc
@@ -727,7 +758,16 @@ function newProduct(){
 
 function saveArchive(){
   const name=document.getElementById('product-name').value||'未命名';
-  const img=document.getElementById('img-prev');const is=img&&img.style.display!=='none'?img.src:'';
+  const img=document.getElementById('img-prev');
+  // Use compressed thumbnail for storage; fall back to compress on-the-fly if needed
+  let is='';
+  if(img&&img.style.display!=='none'){
+    is=ST._thumb||'';
+    if(!is&&img.src){// compress now if thumb not ready
+      // synchronous fallback: store empty and let user retry
+      is='';
+    }
+  }
   const params={market:MKT};PK.forEach(k=>params[k]=gv(k));DK.forEach(k=>params[k]=parseFloat(document.getElementById(k)?.value)||1);CK.forEach(k=>params[k]=document.getElementById('chk_'+k)?.checked||false);
   const R=LR;
   const rec={id:Date.now(),date:new Date().toLocaleDateString('zh-CN'),name,is,params,
